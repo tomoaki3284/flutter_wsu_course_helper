@@ -15,5 +15,5 @@ class User with ChangeNotifier {
   void setName (String username) {
     _username = username;
     notifyListeners();
-  }    
+  }
 }

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'dart:convert';
 
 import 'Model/Class.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ClassList(),
+      child: MyApp(),
+    )
+  );
 }
 
 Future<List<Class>> fetchClasses() async {
@@ -43,32 +50,35 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  List<Class> classes;
-
   @override
   void initState() {
     super.initState();
-    fetchClasses().then((classes) {
-      print("done");
-      setState(() {
-        this.classes = classes;
-      });
+    // addPostFrameCallbackは、initStateが呼ばれた後に一度のみ実行されるコールバック
+    // ウィジェットの描画を行う際、最初の一度のみ実行したい処理を記述する
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // context.read<T>() to get classList reference
+      final classes = context.read<ClassList>();
+      if (classes.allClasses == null || classes.allClasses.isEmpty) {
+        classes.fetchClasses();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.separated(
-        itemCount: classes == null ? 0 : classes.length,
-        itemBuilder: (context, index) {
-          Class clss = classes[index];
-          return _buildRow(clss);
-        },
-        separatorBuilder: (context, index){
-          return Divider();
-        },
-      ),
+    return Consumer<ClassList>(
+      builder: (context, classList, _) => Scaffold(
+        body: ListView.separated(
+          itemCount: classList.allClasses == null ? 0 : classList.allClasses.length,
+          itemBuilder: (context, index) {
+            Class clss = classList.allClasses[index];
+            return _buildRow(clss);
+          },
+          separatorBuilder: (context, index){
+            return Divider();
+          },
+        ),
+      )
     );
   }
 
