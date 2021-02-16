@@ -4,49 +4,54 @@ import 'Class.dart';
 
 class Schedule with ChangeNotifier {
 
-  List<Class> classes;
-  String name;
-  double totalCredit;
+  List<Class> _classes = new List<Class>();
+  String _name = "";
+  double _totalCredit = 0.0;
 
-  Schedule({this.classes, this.name});
+  Schedule ({List<Class> classes, String name}) {
+    _classes = classes;
+    _name = name;
+    setTotalCredit();
+  }
+
+  String get name => _name;
 
   void setTotalCredit () {
-    totalCredit = 0;
-    for (var course in classes) {
-      totalCredit += course.credit;
+    _totalCredit = 0;
+    for (var course in _classes) {
+      _totalCredit += course.credit;
     }
   }
 
-
   // ChangeNotifier methods
   void setSchedule (List<Class> classes, String name) {
-    this.classes = classes;
-    this.name = name;
+    _classes = classes;
+    _name = name;
     setTotalCredit();
 
     notifyListeners();
   }
 
   void addClass (Class course) {
-    if (classes.contains(course)) {
+    if (_classes.contains(course)) {
       // TODO: Log it
       return;
     }
 
-    this.classes.add(course);
-    this.totalCredit += course.credit;
+    _classes.add(course);
+    _totalCredit += course.credit;
 
     notifyListeners();
   }
 
   void removeClass (Class course) {
-    if (!classes.contains(course)) {
+    if (!_classes.contains(course)) {
       // TODO: Log it
       return;
     }
 
-    this.classes.remove(course);
-    this.totalCredit -= course.credit;
+    _classes.remove(course);
+    _totalCredit -= course.credit;
 
     notifyListeners();
   }
