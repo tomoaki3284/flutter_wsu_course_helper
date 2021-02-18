@@ -5,6 +5,7 @@ import 'package:wsu_course_helper/Model/Class.dart';
 
 class ClassListFilter with ChangeNotifier{
 
+  
   String filterCoreBy = "";
   String filterExtraBy = "";
   List<Class> unfilteredClasses;
