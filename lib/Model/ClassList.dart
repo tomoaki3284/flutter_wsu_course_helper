@@ -8,8 +8,8 @@ import 'dart:convert';
 class ClassList with ChangeNotifier {
 
   List<Class> _allClasses;
-  Map<String, List<Class>> _classesBySubject;
-  Map<String, List<Class>> _classesByTitle;
+  Map<String, List<Class>> _classesBySubject = Map<String, List<Class>>();
+  Map<String, List<Class>> _classesByTitle = Map<String, List<Class>>();
 
   fetchClasses() async {
     final String url = "https://wsucoursehelper.s3.amazonaws.com/current-semester.json";

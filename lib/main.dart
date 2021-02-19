@@ -5,6 +5,7 @@ import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'dart:convert';
 
 import 'Model/Class.dart';
+import 'View/HomePage.dart';
 
 void main() {
   runApp(
@@ -43,51 +44,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
 
-class _HomePageState extends State<HomePage> {
-
-  @override
-  void initState() {
-    super.initState();
-    // addPostFrameCallbackは、initStateが呼ばれた後に一度のみ実行されるコールバック
-    // ウィジェットの描画を行う際、最初の一度のみ実行したい処理を記述する
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // context.read<T>() to get classList reference
-      final classes = context.read<ClassList>();
-      if (classes.allClasses == null || classes.allClasses.isEmpty) {
-        classes.fetchClasses();
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ClassList>(
-      builder: (context, classList, _) => Scaffold(
-        body: ListView.separated(
-          itemCount: classList.allClasses == null ? 0 : classList.allClasses.length,
-          itemBuilder: (context, index) {
-            Class clss = classList.allClasses[index];
-            return _buildRow(clss);
-          },
-          separatorBuilder: (context, index){
-            return Divider();
-          },
-        ),
-      )
-    );
-  }
-
-  Widget _buildRow(Class clss) {
-    return ListTile(
-      title: Text(clss.title),
-    );
-  }
-}
 
 
 
