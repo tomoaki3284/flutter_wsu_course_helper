@@ -18,6 +18,7 @@ class Hours {
   /// Get the interval from of open hours
   ///
   /// @return the interval form of int[] {startHour*60 + startMin, endHour*60 + endMin}
+  /// which is equivalent of int[] {starting hour in minute, ending hour in minute}
   List<int> getInIntervalForm() {
     List<int> result = new List();
     result.add(startHours*60 + startMinute);
