@@ -15,6 +15,13 @@ class Hours {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    'startHours': startHours,
+    'startMinute': startMinute,
+    'endHours': endHour,
+    'endMinute': endMinute,
+  };
+
   /// Get the interval from of open hours
   ///
   /// @return the interval form of int[] {startHour*60 + startMin, endHour*60 + endMin}

@@ -10,10 +10,29 @@ class SchedulePool with ChangeNotifier{
   Map<String, Schedule> _scheduleByName = new HashMap<String, Schedule>();
 
   SchedulePool ({Map<String, Schedule> scheduleByName}) {
-    _scheduleByName = scheduleByName;
+    if (_scheduleByName != null) {
+      _scheduleByName = scheduleByName;
+    }
   }
 
   Map<String, Schedule> get scheduleByName => _scheduleByName;
+
+  Map<String, dynamic> toJson() => {
+    '_scheduleByName': _scheduleByName,
+  };
+
+  factory SchedulePool.fromJson(Map<String, dynamic> json) {
+    Map<String, Schedule> scheduleByName = {};
+    for (var key in json.keys) {
+      if (json[key] == null) continue;
+      Schedule schedule = Schedule.fromJson(json[key]);
+      scheduleByName[key] = schedule;
+    }
+
+    return SchedulePool(
+      scheduleByName: scheduleByName,
+    );
+  }
 
   // provider methods
   bool addSchedule (Schedule schedule) {

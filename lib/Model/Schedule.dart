@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 import 'Class.dart';
@@ -22,6 +24,22 @@ class Schedule with ChangeNotifier {
     for (var course in _classes) {
       _totalCredit += course.credit;
     }
+  }
+
+  Map<String, dynamic> toJson() => {
+    '_classes': _classes,
+    '_name': _name,
+    '_totalCredit': _totalCredit,
+  };
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    Iterable l = jsonDecode(json['_classes']);
+    List<Class> classes = List<Class>.from(l.map((model) => Class.fromJson(model)));
+
+    return Schedule(
+      classes: classes,
+      name: json['_name'],
+    );
   }
 
   /// How this function work?

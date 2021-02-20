@@ -29,6 +29,21 @@ class Class {
       this.cores,
       this.weeklyHours});
 
+  Map<String, dynamic> toJson() => {
+    'courseCRN': courseCRN,
+    'subject': subject,
+    'title': title,
+    'classDescription': classDescription,
+    'faculty': faculty,
+    'room': room,
+    'timeString': timeString,
+    'credit': credit,
+    'isLab': isLab,
+    'isCancelled': isCancelled,
+    'cores': cores,
+    'weeklyHours': weeklyHours,
+  };
+
   factory Class.fromJson(Map<String, dynamic> json) {
     List<dynamic> coresFromJson = json["cores"];
     List<String> coreList = new List<String>.from(coresFromJson);
