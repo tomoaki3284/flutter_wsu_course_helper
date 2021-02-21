@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 
+import '../Logger.dart';
 import 'Class.dart';
 import 'Hours.dart';
 
@@ -33,6 +34,8 @@ class Schedule with ChangeNotifier {
   };
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
+    Logger.LogDetailed('Schedule.dart', 'Schedule.fromJson', 'method called');
+
     Iterable l = jsonDecode(json['_classes']);
     List<Class> classes = List<Class>.from(l.map((model) => Class.fromJson(model)));
 
@@ -67,6 +70,8 @@ class Schedule with ChangeNotifier {
   /// In this case, this algorithms is not perfect. But it work most of the time...
   /// Good luck figuring this out future me, I'm bit tired right now. 2/19/2021
   bool doesClassHoursOverlap() {
+    Logger.LogDetailed('Schedule.dart', 'doesClassHoursOverlap', 'method called');
+
     if (_classes.length <= 1) {
       // if schedule only contains one class, then no overlap
       return false;

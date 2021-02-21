@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 
+import '../Logger.dart';
 import 'Class.dart';
 import 'Schedule.dart';
 
@@ -22,6 +23,8 @@ class SchedulePool with ChangeNotifier{
   };
 
   factory SchedulePool.fromJson(Map<String, dynamic> json) {
+    Logger.LogDetailed('SchedulePool.dart', 'SchedulePool.fromJson', 'method called');
+
     Map<String, Schedule> scheduleByName = {};
     for (var key in json.keys) {
       if (json[key] == null) continue;
@@ -36,6 +39,8 @@ class SchedulePool with ChangeNotifier{
 
   // provider methods
   bool addSchedule (Schedule schedule) {
+    Logger.LogDetailed('SchedulePool.dart', 'addSchedule', 'method called');
+
     if (_scheduleByName.containsKey(schedule.name)) {
       return false;
     }
@@ -47,6 +52,8 @@ class SchedulePool with ChangeNotifier{
   }
 
   bool removeTargetSchedule (String scheduleName) {
+    Logger.LogDetailed('SchedulePool.dart', 'removeTargetSchedule', 'method called');
+
     if (!_scheduleByName.containsKey(scheduleByName)) {
       return false;
     }
@@ -62,6 +69,7 @@ class SchedulePool with ChangeNotifier{
   }
 
   void addClassToNewSchedule (Class course, String scheduleName) {
+    Logger.LogDetailed('SchedulePool.dart', 'addClassToNewSchedule', 'method called');
     Schedule newSchedule = new Schedule(name: scheduleName);
     _scheduleByName[newSchedule.name] = newSchedule;
     addClassToTargetSchedule(newSchedule.name, course);
@@ -69,10 +77,12 @@ class SchedulePool with ChangeNotifier{
   }
 
   void addClassToTargetSchedule (String scheduleName, Class course) {
+    Logger.LogDetailed('SchedulePool.dart', 'addClassToTargetSchedule', 'method called');
     _scheduleByName[scheduleName].addClass(course);
   }
 
   void removeClassFromTargetSchedule (String scheduleName, Class course) {
+    Logger.LogDetailed('SchedulePool.dart', 'removeClassFromTargetSchedule', 'method called');
     _scheduleByName[scheduleName].removeClass(course);
   }
 }

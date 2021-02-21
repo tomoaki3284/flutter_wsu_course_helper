@@ -4,8 +4,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/constants.dart';
 import 'dart:convert';
 
+import 'Logger.dart';
 import 'Model/Class.dart';
 import 'Model/User.dart';
 import 'View/HomePage.dart';
@@ -21,12 +23,10 @@ void main() async {
     try {
       var json = await InternalStorage.read(sharedPrefUserKey);
       User user = User.fromJson(json);
-      print('Successfully read user object from pref');
+      Logger.LogDetailed('main', 'loadSharedPreferences', 'Successfully read user object from pref');
       return user;
     } catch (Exception) {
-      print('Exception loading User START -------------------');
-      print(Exception);
-      print('Exception loading User END ----------------------');
+      Logger.LogException(Exception);
       // if no data initially, return default user object
       User user = User(username: User.defaultUsername);
       InternalStorage.save(sharedPrefUserKey, user);
@@ -57,9 +57,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xFF3EBACE),
+        primaryColor: kPrimaryColor,
         accentColor: Color(0xFFD8ECF1),
-        scaffoldBackgroundColor: Color(0xFFF3F5F7),
+        scaffoldBackgroundColor: kBackgroundColor,
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
       ),
       home: HomePage(),
     );
