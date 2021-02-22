@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
+import '../Logger.dart';
 import 'Class.dart';
 
 import 'package:http/http.dart' as http;
@@ -10,8 +12,11 @@ class ClassList with ChangeNotifier {
   List<Class> _allClasses;
   Map<String, List<Class>> _classesBySubject = Map<String, List<Class>>();
   Map<String, List<Class>> _classesByTitle = Map<String, List<Class>>();
+  List<String> _subjects = [];
 
   fetchClasses() async {
+    Logger.LogDetailed('ClassList.dart', 'fetchClasses', 'start fetching');
+
     final String url = "https://wsucoursehelper.s3.amazonaws.com/current-semester.json";
     final response = await http.get(url);
 
@@ -23,6 +28,7 @@ class ClassList with ChangeNotifier {
       _allClasses = classes;
       setClassesBySubject();
       setClassesByTitle();
+      setSubjectsList();
       notifyListeners();
     } else {
       // If the server did not return a 200 OK response,
@@ -36,6 +42,19 @@ class ClassList with ChangeNotifier {
   Map<String, List<Class>> get classesBySubject => _classesBySubject;
 
   Map<String, List<Class>> get classByTitle => _classesByTitle;
+
+  List<String> get subjects => _subjects;
+  
+  void setSubjectsList() {
+    for (String subject in _classesBySubject.keys) {
+      if (subject == null || subject.length == 0 || subject == 'Lab'){
+        continue;
+      }
+      _subjects.add(subject);
+    }
+    
+    _subjects.sort((a,b) => a.compareTo(b));
+  }
 
   void setClassesBySubject () {
     for (var course in _allClasses) {

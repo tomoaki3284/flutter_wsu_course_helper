@@ -40,7 +40,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ClassList()),
-        ChangeNotifierProvider(create: (context) => User(username: user.username)),
+        ChangeNotifierProvider(create: (context) => user),
       ],
       child: MyApp(),
     )

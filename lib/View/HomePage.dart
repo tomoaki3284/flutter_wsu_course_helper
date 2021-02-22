@@ -8,6 +8,7 @@ import 'package:wsu_course_helper/View/WelcomeBlock.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 import '../Logger.dart';
+import 'CoursesBlock.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: <Widget>[
               WelcomeBlock(),
-
+              CoursesBlock(),
             ],
           ),
         ),
