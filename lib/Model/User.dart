@@ -12,6 +12,7 @@ class User with ChangeNotifier {
   SchedulePool _schedulePool = SchedulePool();
 
   User ({String username, SchedulePool schedulePool}) {
+    Logger.LogDetailed('User', 'constructor', 'method called');
     _username = username;
     if (schedulePool != null) {
       _schedulePool = schedulePool;

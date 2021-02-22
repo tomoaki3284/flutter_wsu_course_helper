@@ -8,10 +8,10 @@ import 'Schedule.dart';
 
 class SchedulePool with ChangeNotifier{
 
-  Map<String, Schedule> _scheduleByName = new HashMap<String, Schedule>();
+  Map<String, Schedule> _scheduleByName = {};
 
   SchedulePool ({Map<String, Schedule> scheduleByName}) {
-    if (_scheduleByName != null) {
+    if (scheduleByName != null) {
       _scheduleByName = scheduleByName;
     }
   }

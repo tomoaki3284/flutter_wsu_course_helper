@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/constants.dart';
 import 'dart:convert';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'Logger.dart';
 import 'Model/Class.dart';
+import 'Model/Schedule.dart';
 import 'Model/User.dart';
 import 'View/HomePage.dart';
 
@@ -24,11 +28,16 @@ void main() async {
       var json = await InternalStorage.read(sharedPrefUserKey);
       User user = User.fromJson(json);
       Logger.LogDetailed('main', 'loadSharedPreferences', 'Successfully read user object from pref');
+      user.schedulePool.addSchedule(new Schedule(name: 'schedule 1'));
+      user.schedulePool.addSchedule(new Schedule(name: 'schedule 2'));
+      user.schedulePool.addSchedule(new Schedule(name: 'schedule 3'));
+      // InternalStorage.remove(sharedPrefUserKey);
       return user;
     } catch (Exception) {
       Logger.LogException(Exception);
       // if no data initially, return default user object
       User user = User(username: User.defaultUsername);
+      user.schedulePool.addSchedule(new Schedule(name: 'schedule 1'));
       InternalStorage.save(sharedPrefUserKey, user);
       return user;
     }
@@ -41,6 +50,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => ClassList()),
         ChangeNotifierProvider(create: (context) => user),
+        ChangeNotifierProvider(create: (context) => user.schedulePool),
       ],
       child: MyApp(),
     )
@@ -53,16 +63,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        accentColor: Color(0xFFD8ECF1),
-        scaffoldBackgroundColor: kBackgroundColor,
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: kPrimaryColor,
+        statusBarBrightness: Brightness.light,
       ),
-      home: HomePage(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: kPrimaryColor,
+          accentColor: Color(0xFFD8ECF1),
+          scaffoldBackgroundColor: kBackgroundColor,
+          textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+        ),
+        home: HomePage(),
+      ),
     );
   }
 }

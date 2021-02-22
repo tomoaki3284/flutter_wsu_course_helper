@@ -22,6 +22,11 @@ class Schedule with ChangeNotifier {
 
   void setTotalCredit () {
     _totalCredit = 0;
+
+    if (_classes == null || _classes.length == 0) {
+      return;
+    }
+
     for (var course in _classes) {
       _totalCredit += course.credit;
     }
