@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/View/GeneralHeader.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class CoursesBlock extends StatelessWidget {
@@ -10,7 +11,7 @@ class CoursesBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        _buildCoursesBlockHeader(context),
+        GeneralHeader(title: 'Courses'),
         _buildCoursesListView(context),
       ],
     );
@@ -59,40 +60,6 @@ class CoursesBlock extends StatelessWidget {
           Text(
             subjectName,
             style: TextStyle(color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCoursesBlockHeader(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              'Courses',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
-                fontSize: 15.0,
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              'view all >>',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w200,
-                fontSize: 15.0,
-              ),
-            ),
           ),
         ],
       ),
