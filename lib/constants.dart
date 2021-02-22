@@ -142,3 +142,9 @@ const kSubjectByAlias = {
   'SOCW': 'Social',
   'THEA': 'Theatre',
 };
+
+const kImgByFeatureName = {
+  'auto scheduler' : 'assets/images/auto_scheduler.png',
+  'prof. rating' : 'assets/images/prof_rating.png',
+  'donate' : 'assets/images/donate.png',
+};
