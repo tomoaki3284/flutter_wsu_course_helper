@@ -10,6 +10,7 @@ import 'package:wsu_course_helper/constants.dart';
 
 import '../Logger.dart';
 import 'CoursesBlock.dart';
+import 'SchedulePagerBlock.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,9 +36,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.blue, statusBarBrightness: Brightness.dark));
-
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -46,6 +44,7 @@ class _HomePageState extends State<HomePage> {
               WelcomeBlock(),
               CoursesBlock(),
               FeaturesBlock(),
+              SchedulePagerBlock(),
             ],
           ),
         ),

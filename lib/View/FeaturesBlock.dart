@@ -37,7 +37,7 @@ class FeaturesBlock extends StatelessWidget {
 
   Widget _buildFeaturesListView(BuildContext context) {
     return Container(
-      height: 90,
+      height: 80,
       child: ListView.builder(
         itemCount: features.length,
         scrollDirection: Axis.horizontal,
@@ -63,7 +63,7 @@ class FeaturesBlock extends StatelessWidget {
         ],
       ),
       margin: EdgeInsets.only(left: 15),
-      width: 90,
+      width: 80,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -73,7 +73,7 @@ class FeaturesBlock extends StatelessWidget {
           Padding(padding: EdgeInsets.only(bottom: 10)),
           Text(
             features[index].name,
-            style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w300),
+            style: TextStyle(color: Colors.black, fontSize: 11, fontWeight: FontWeight.w300),
           ),
         ],
       ),
