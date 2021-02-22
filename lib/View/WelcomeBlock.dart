@@ -27,7 +27,7 @@ class WelcomeBlock extends StatelessWidget {
   Widget _buildBlock(BuildContext context) {
     return Consumer<User>(
       builder: (context, user, _) => Container(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

@@ -44,12 +44,20 @@ class CoursesBlock extends StatelessWidget {
         : kSubjectByAlias[subjectAlias];
     
     return Container(
+      width: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Color(color),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(3, 7),
+          ),
+        ],
       ),
-      margin: EdgeInsets.only(left: 15),
-      width: 150,
+      margin: EdgeInsets.only(left: 15, bottom: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

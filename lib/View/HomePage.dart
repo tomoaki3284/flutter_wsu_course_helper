@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/User.dart';
+import 'package:wsu_course_helper/View/FeaturesBlock.dart';
 import 'package:wsu_course_helper/View/WelcomeBlock.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               WelcomeBlock(),
               CoursesBlock(),
+              FeaturesBlock(),
             ],
           ),
         ),
