@@ -18,8 +18,8 @@ class GeneralHeader extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
+                color: Colors.black87,
+                fontWeight: FontWeight.w400,
                 fontSize: 15.0,
               ),
             ),
@@ -29,10 +29,10 @@ class GeneralHeader extends StatelessWidget {
             child: Text(
               'view all >>',
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Colors.blue,
                 decoration: TextDecoration.underline,
                 fontWeight: FontWeight.w200,
-                fontSize: 15.0,
+                fontSize: 14.0,
               ),
             ),
           ),

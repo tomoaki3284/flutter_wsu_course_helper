@@ -44,7 +44,7 @@ class CoursesBlock extends StatelessWidget {
         : kSubjectByAlias[subjectAlias];
     
     return Container(
-      width: 150,
+      width: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
         color: Color(color),

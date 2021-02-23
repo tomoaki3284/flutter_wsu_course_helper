@@ -20,6 +20,8 @@ class Schedule with ChangeNotifier {
 
   String get name => _name;
 
+  double get totalCredit => _totalCredit;
+
   void setTotalCredit () {
     _totalCredit = 0;
 

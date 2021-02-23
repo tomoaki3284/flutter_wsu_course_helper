@@ -8,7 +8,6 @@ import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/constants.dart';
 import 'dart:convert';
-import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 import 'Logger.dart';
 import 'Model/Class.dart';
@@ -63,12 +62,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context, listen: false);
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: kPrimaryColor,
-        statusBarBrightness: Brightness.light,
-      ),
-      child: MaterialApp(
+    return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -78,7 +72,6 @@ class MyApp extends StatelessWidget {
           textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
         ),
         home: HomePage(),
-      ),
     );
   }
 }

@@ -6,7 +6,7 @@ const kTextColorHint = Color(0xFF797979);
 const kBackgroundColor = Color(0xFFF3F5F7);
 
 const kColorBySubject = {
-  'ART': 0xffA1C6EA,
+  'ART': 0xffFFCF87,
   'HIST': 0xffee9c42,
   'ENVS': 0xffccee42,
   'LACS': 0xffc93846,
@@ -14,7 +14,7 @@ const kColorBySubject = {
   'LLIT': 0xff052d3d,
   'GPS': 0xff5E9663,
   'MLSC': 0xff765130,
-  'ACCT': 0xffB5C59B,
+  'ACCT': 0xff82BBFF,
   'EDUC': 0xff8F372C,
   'LANG': 0xff9C511B,
   'LFRE': 0xff3A4146,
@@ -48,7 +48,7 @@ const kColorBySubject = {
   'MOVP': 0xff00C9A7,
   'BIOL': 0xff005B44,
   'PHIL': 0xff00C9A7,
-  'ANTH': 0xffDCB0FF,
+  'ANTH': 0xff78D781,
 };
 
 const kImageBySubject = {

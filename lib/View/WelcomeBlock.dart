@@ -39,7 +39,7 @@ class WelcomeBlock extends StatelessWidget {
                       fontWeight: FontWeight.w300,
                       fontSize: 20.0,
                       color: Colors.white,
-                      height: 1.9
+                      height: 1.9,
                   ),
                   children: <TextSpan>[
                     TextSpan(
