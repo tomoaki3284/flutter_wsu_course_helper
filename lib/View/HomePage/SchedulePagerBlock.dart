@@ -27,11 +27,13 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
         child: Column(
           children: <Widget>[
             GeneralHeader(title: 'Your Schedules'),
-            Stack(
-              children: <Widget>[
-                _buildPageView(scheduleList),
-                _buildDotIndicator(scheduleList),
-              ],
+            Container(
+              child: Stack(
+                children: <Widget>[
+                  _buildPageView(scheduleList),
+                  _buildDotIndicator(scheduleList),
+                ],
+              ),
             ),
           ],
         ),
@@ -41,7 +43,7 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
 
   Widget _buildPageView(SchedulePool scheduleList) {
     return Container(
-      height: 200,
+      height: 170,
       child: PageView.builder(
         itemCount: scheduleList == null ? 0 : scheduleList.scheduleByName.length,
         controller: _controller,
@@ -65,11 +67,10 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
   Widget _buildScheduleCell(Schedule schedule) {
     return Center(
       child: Container(
-        height: 150,
         width: 325,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-          color: Colors.deepPurple,
+          color: kPrimaryColor,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),

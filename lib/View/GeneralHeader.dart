@@ -11,28 +11,33 @@ class GeneralHeader extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.w400,
-                fontSize: 15.0,
+          Flexible(
+            flex: 8,
+            child: Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 10),
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15.0,
+                ),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            child: Text(
-              'view all >>',
-              style: TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
-                fontWeight: FontWeight.w200,
-                fontSize: 14.0,
+          Flexible(
+            flex: 3,
+            child: Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Text(
+                'See all >',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.0,
+                ),
               ),
             ),
           ),

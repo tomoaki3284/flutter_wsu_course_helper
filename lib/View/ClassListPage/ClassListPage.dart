@@ -20,7 +20,7 @@ class ClassListPage extends StatelessWidget {
         headerSliverBuilder: (context, innerBoxScrolled) {
           return <Widget>[
             _buildTopSliverAppBar(),
-            _buildBottomSliverAppBar(),
+            _buildBottomSliverAppBar(classListFilter),
           ];
         },
         body: ListView.builder(
@@ -34,19 +34,34 @@ class ClassListPage extends StatelessWidget {
 
   SliverAppBar _buildTopSliverAppBar() {
     return SliverAppBar(
-      backgroundColor: Colors.white,
       floating: false,
       pinned: false,
+      expandedHeight: 150,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
       title: Text(
         'Courses',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: Colors.brown,),
       ),
+      flexibleSpace: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              background: Container(
+                color: Colors.white,
+                child: Image.asset(
+                  'assets/images/bg_modern_design.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          }),
     );
   }
 
-  SliverAppBar _buildBottomSliverAppBar() {
+  SliverAppBar _buildBottomSliverAppBar(ClassListFilter classListFilter) {
     return SliverAppBar(
-      backgroundColor: Colors.white,
       automaticallyImplyLeading: false,
       pinned: true,
       title: Container(
@@ -63,6 +78,7 @@ class ClassListPage extends StatelessWidget {
         child: CupertinoTextField(
           onSubmitted: (String val) {
             // todo: filter it
+            classListFilter.applyTitleFilter(val);
             print("$val : filter with this");
           },
           keyboardType: TextInputType.text,
@@ -73,7 +89,7 @@ class ClassListPage extends StatelessWidget {
             fontFamily: 'Brutal',
           ),
           prefix: Padding(
-            padding: const EdgeInsets.fromLTRB(5.0, 5.0, 0.0, 5.0),
+            padding: const EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
             child: Icon(
               Icons.search,
               size: 18,
@@ -101,7 +117,7 @@ class ClassListPage extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 3,
-              offset: Offset(3, 7),
+              offset: Offset(0, 3),
             ),
           ]),
       child: Row(

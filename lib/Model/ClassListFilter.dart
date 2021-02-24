@@ -16,7 +16,20 @@ class ClassListFilter with ChangeNotifier{
     unfilteredClasses = classes;
     filteredClasses = classes;
   }
-  
+
+
+
+  void applyTitleFilter (String filterTitleBy) {
+    filteredClasses = [];
+    for (var course in unfilteredClasses) {
+      if (course.title.toLowerCase().contains(filterTitleBy)) {
+        filteredClasses.add(course);
+      }
+    }
+
+    notifyListeners();
+  }
+
   void applyFilter () {
     filteredClasses = [];
     if (filterCoreBy.length != 0) {

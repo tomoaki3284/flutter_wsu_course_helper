@@ -8,7 +8,7 @@ class WelcomeBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 160,
       child: Stack(
         children: <Widget>[
           ClipPath(
@@ -18,7 +18,6 @@ class WelcomeBlock extends StatelessWidget {
             ),
           ),
           _buildBlock(context),
-
         ],
       ),
     );
@@ -27,7 +26,7 @@ class WelcomeBlock extends StatelessWidget {
   Widget _buildBlock(BuildContext context) {
     return Consumer<User>(
       builder: (context, user, _) => Container(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
+        padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -36,8 +35,8 @@ class WelcomeBlock extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 20.0,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 21.0,
                       color: Colors.white,
                       height: 1.9,
                   ),
@@ -49,7 +48,7 @@ class WelcomeBlock extends StatelessWidget {
                       text: "Explore WSU Courses",
                       style: TextStyle(
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w200,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ],
