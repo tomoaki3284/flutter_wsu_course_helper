@@ -13,7 +13,7 @@ import 'Logger.dart';
 import 'Model/Class.dart';
 import 'Model/Schedule.dart';
 import 'Model/User.dart';
-import 'View/HomePage.dart';
+import 'View/HomePage/HomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // this line is needed to use async/await in main()

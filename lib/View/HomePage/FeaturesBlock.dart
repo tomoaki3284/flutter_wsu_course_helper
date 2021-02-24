@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-import 'GeneralHeader.dart';
+import '../../constants.dart';
+import '../GeneralHeader.dart';
 
 class FeaturesBlock extends StatelessWidget {
   List<Feature> features = [

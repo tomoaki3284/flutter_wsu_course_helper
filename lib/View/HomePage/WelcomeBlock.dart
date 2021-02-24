@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/User.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 
 class WelcomeBlock extends StatelessWidget {
   @override
