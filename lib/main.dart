@@ -27,16 +27,16 @@ void main() async {
       var json = await InternalStorage.read(sharedPrefUserKey);
       User user = User.fromJson(json);
       Logger.LogDetailed('main', 'loadSharedPreferences', 'Successfully read user object from pref');
-      user.schedulePool.addSchedule(new Schedule(name: 'schedule 1'));
-      user.schedulePool.addSchedule(new Schedule(name: 'schedule 2'));
-      user.schedulePool.addSchedule(new Schedule(name: 'schedule 3'));
+      user.schedulePool.addSchedule('schedule 1');
+      user.schedulePool.addSchedule('schedule 2');
+      user.schedulePool.addSchedule('schedule 3');
       // InternalStorage.remove(sharedPrefUserKey);
       return user;
     } catch (Exception) {
       Logger.LogException(Exception);
       // if no data initially, return default user object
       User user = User(username: User.defaultUsername);
-      user.schedulePool.addSchedule(new Schedule(name: 'schedule 1'));
+      user.schedulePool.addSchedule('schedule 1');
       InternalStorage.save(sharedPrefUserKey, user);
       return user;
     }
