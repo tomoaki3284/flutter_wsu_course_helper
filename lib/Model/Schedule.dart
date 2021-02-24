@@ -12,8 +12,10 @@ class Schedule with ChangeNotifier {
   String _name = "";
   double _totalCredit = 0.0;
 
-  Schedule ({List<Class> classes, String name}) {
-    _classes = classes;
+  Schedule ({List<Class> classes, @required String name}) {
+    if (classes != null) {
+      _classes = classes;
+    }
     _name = name;
     setTotalCredit();
   }
@@ -43,8 +45,15 @@ class Schedule with ChangeNotifier {
   factory Schedule.fromJson(Map<String, dynamic> json) {
     Logger.LogDetailed('Schedule.dart', 'Schedule.fromJson', 'method called');
 
-    Iterable l = jsonDecode(json['_classes']);
-    List<Class> classes = List<Class>.from(l.map((model) => Class.fromJson(model)));
+    var jsonBody = json[json['_classes']];
+
+    List<Class> classes;
+    if (jsonBody == null) {
+      classes = [];
+    } else {
+      Iterable l = jsonDecode(jsonBody);
+      classes = List<Class>.from(l.map((model) => Class.fromJson(model)));
+    }
 
     return Schedule(
       classes: classes,

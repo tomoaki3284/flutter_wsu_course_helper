@@ -25,12 +25,18 @@ class SchedulePool with ChangeNotifier{
 
   Schedule get focusedSchedule => _focusedSchedule;
 
-  Map<String, dynamic> toJson() => {
-    '_scheduleByName': _scheduleByName,
-  };
+  Map<String, dynamic> toJson() {
+
+
+    return {
+      '_scheduleByName': _scheduleByName,
+    };
+  }
 
   factory SchedulePool.fromJson(Map<String, dynamic> json) {
     Logger.LogDetailed('SchedulePool.dart', 'SchedulePool.fromJson', 'method called');
+
+    json = json['_scheduleByName'];
 
     Map<String, Schedule> scheduleByName = {};
     for (var key in json.keys) {

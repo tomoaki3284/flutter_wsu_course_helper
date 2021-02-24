@@ -30,7 +30,7 @@ void main() async {
       user.schedulePool.addSchedule('schedule 1');
       user.schedulePool.addSchedule('schedule 2');
       user.schedulePool.addSchedule('schedule 3');
-      // InternalStorage.remove(sharedPrefUserKey);
+      InternalStorage.remove(sharedPrefUserKey);
       return user;
     } catch (Exception) {
       Logger.LogException(Exception);
