@@ -75,4 +75,18 @@ class Class {
       isCancelled: json["isCancelled"],
     );
   }
+
+  String getCoresString () {
+    if (cores.length == 0) {
+      return '';
+    } else if (cores.length == 1) {
+      return cores[0];
+    }
+    String res = '';
+    for (String core in cores) {
+      res += '$core, ';
+    }
+    res = res.trim();
+    return res.substring(0, res.length-1);
+  }
 }

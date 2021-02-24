@@ -26,8 +26,6 @@ class SchedulePool with ChangeNotifier{
   Schedule get focusedSchedule => _focusedSchedule;
 
   Map<String, dynamic> toJson() {
-
-
     return {
       '_scheduleByName': _scheduleByName,
     };

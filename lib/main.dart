@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/constants.dart';
 import 'dart:convert';
@@ -27,10 +28,10 @@ void main() async {
       var json = await InternalStorage.read(sharedPrefUserKey);
       User user = User.fromJson(json);
       Logger.LogDetailed('main', 'loadSharedPreferences', 'Successfully read user object from pref');
-      user.schedulePool.addSchedule('schedule 1');
-      user.schedulePool.addSchedule('schedule 2');
-      user.schedulePool.addSchedule('schedule 3');
-      InternalStorage.remove(sharedPrefUserKey);
+      // user.schedulePool.addSchedule('schedule 1');
+      // user.schedulePool.addSchedule('schedule 2');
+      // user.schedulePool.addSchedule('schedule 3');
+      // InternalStorage.save(sharedPrefUserKey, user);
       return user;
     } catch (Exception) {
       Logger.LogException(Exception);
@@ -50,6 +51,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ClassList()),
         ChangeNotifierProvider(create: (context) => user),
         ChangeNotifierProvider(create: (context) => user.schedulePool),
+        ChangeNotifierProvider(create: (context) => ClassListFilter()),
       ],
       child: MyApp(),
     )

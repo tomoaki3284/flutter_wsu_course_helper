@@ -11,6 +11,12 @@ class ClassListFilter with ChangeNotifier{
   List<Class> unfilteredClasses;
   List<Class> filteredClasses;
 
+  void init(List<Class> classes) {
+    // because it is init, unfilteredClasses == filteredClass
+    unfilteredClasses = classes;
+    filteredClasses = classes;
+  }
+  
   void applyFilter () {
     filteredClasses = [];
     if (filterCoreBy.length != 0) {
