@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/constants.dart';
 
 class ClassListPage extends StatelessWidget {
   @override
@@ -36,27 +37,13 @@ class ClassListPage extends StatelessWidget {
     return SliverAppBar(
       floating: false,
       pinned: false,
-      expandedHeight: 150,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
       title: Text(
         'Courses',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: Colors.brown,),
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: Colors.white,),
       ),
-      flexibleSpace: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-            return FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              background: Container(
-                color: Colors.white,
-                child: Image.asset(
-                  'assets/images/bg_modern_design.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          }),
     );
   }
 
@@ -126,8 +113,7 @@ class ClassListPage extends StatelessWidget {
           Flexible(
             flex: 2,
             child: Container(
-              color: Colors.black54,
-              child: Image.asset('assets/images/BOOK.png'),
+              child: Image.asset(kImageBySubject[course.subject]),
             ),
           ),
           Flexible(

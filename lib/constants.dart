@@ -57,7 +57,6 @@ const kImageBySubject = {
   'ENVS': 'assets/images/ENVS.png',
   'LACS': 'assets/images/BOOK.png',
   'LARA': 'assets/images/LARA.png',
-  'LLIT': 'assets/images/LLIT.png',
   'GPS': 'assets/images/GEOL.png',
   'MLSC': 'assets/images/MLSC.png',
   'ACCT': 'assets/images/ACCT.png',
