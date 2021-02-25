@@ -70,7 +70,7 @@ class ClassListFilter with ChangeNotifier{
 
   List<String> getFilterComponents () {
     if (filterCoreBy.length == 0 && filterExtraBy.length == 0) {
-      return null;
+      return [];
     }
 
     List<String> res = [];

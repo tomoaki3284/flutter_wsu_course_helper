@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
+import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -22,6 +24,7 @@ class ClassListPage extends StatelessWidget {
           return <Widget>[
             _buildTopSliverAppBar(),
             _buildBottomSliverAppBar(classListFilter),
+            _buildChipBar(classListFilter),
           ];
         },
         body: ListView.builder(
@@ -42,7 +45,11 @@ class ClassListPage extends StatelessWidget {
       ),
       title: Text(
         'Courses',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300, color: Colors.white,),
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w300,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -64,7 +71,6 @@ class ClassListPage extends StatelessWidget {
         ),
         child: CupertinoTextField(
           onSubmitted: (String val) {
-            // todo: filter it
             classListFilter.applyTitleFilter(val);
             print("$val : filter with this");
           },
@@ -88,6 +94,33 @@ class ClassListPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildChipBar(ClassListFilter classListFilter) {
+    return SliverAppBar(
+      automaticallyImplyLeading: false,
+      title: _buildFilterChips(classListFilter),
+    );
+  }
+
+  Widget _buildFilterChips(ClassListFilter classListFilter) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Wrap(
+        spacing: 6,
+        runSpacing: 6,
+        children: List<Widget>.generate(
+            classListFilter.getFilterComponents().length, (index) {
+          return Chip(
+            label: Text(classListFilter.getFilterComponents()[index]),
+            onDeleted: () {
+              classListFilter
+                  .removeFilter(classListFilter.getFilterComponents()[index]);
+            },
+          );
+        }),
       ),
     );
   }
@@ -126,7 +159,9 @@ class ClassListPage extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 5),
                     child: Text(
-                      toShortForm(course.title),
+                      course.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Color(0xFF7779A4),
                         fontSize: 16,
@@ -139,8 +174,8 @@ class ClassListPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        _buildClassDetails('assets/images/user.png',
-                            toShortFormFaculty(course.faculty)),
+                        _buildClassDetails(
+                            'assets/images/user.png', course.faculty),
                         _buildClassDetails('assets/images/timer.png',
                             course.credit.toString()),
                         _buildClassDetails(
@@ -157,20 +192,6 @@ class ClassListPage extends StatelessWidget {
     );
   }
 
-  String toShortForm(String courseTitle) {
-    if (courseTitle.length < 25) {
-      return courseTitle;
-    }
-    return '${courseTitle.substring(0, 18)}...';
-  }
-
-  String toShortFormFaculty(String faculty) {
-    if (faculty.length < 10) {
-      return faculty;
-    }
-    return '${faculty.substring(0, 7)}...';
-  }
-
   Widget _buildClassDetails(String imagePath, String content) {
     return Flexible(
       flex: content.contains('0') ? 2 : 3,
@@ -183,12 +204,20 @@ class ClassListPage extends StatelessWidget {
               width: 14,
             ),
           ),
-          Text(
-            content,
-            style: TextStyle(
-              color: Color(0xFF7779A4),
-              fontSize: 12,
-              fontWeight: FontWeight.w300,
+          Flexible(
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.only(right: 3),
+              child: Text(
+                content,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Color(0xFF7779A4),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
             ),
           )
         ],
