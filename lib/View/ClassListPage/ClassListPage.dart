@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/constants.dart';
+
+import 'FilterDialog.dart';
 
 class ClassListPage extends StatelessWidget {
   @override
@@ -23,7 +26,7 @@ class ClassListPage extends StatelessWidget {
         headerSliverBuilder: (context, innerBoxScrolled) {
           return <Widget>[
             _buildTopSliverAppBar(),
-            _buildBottomSliverAppBar(classListFilter),
+            _buildBottomSliverAppBar(classListFilter, context),
             _buildChipBar(classListFilter),
           ];
         },
@@ -54,21 +57,50 @@ class ClassListPage extends StatelessWidget {
     );
   }
 
-  SliverAppBar _buildBottomSliverAppBar(ClassListFilter classListFilter) {
+  SliverAppBar _buildBottomSliverAppBar(ClassListFilter classListFilter, BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var searchBarWidth = size.width * 0.80;
+
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: true,
-      title: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        height: 40,
-        decoration: BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.6),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 5.0),
+      title: SizedBox(
+        width: size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _buildSearchBar(classListFilter, searchBarWidth),
+            GestureDetector(
+              onTap: () {
+                // todo: open filter
+                _showDialog(context);
+              },
+              child: Image.asset('assets/images/filter.png'),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => FilterDialog());
+  }
+
+  Widget _buildSearchBar(ClassListFilter classListFilter, var searchBarWidth) {
+    return Container(
+      height: 40,
+      decoration: BoxDecoration(
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.6),
+              offset: const Offset(1.1, 1.1),
+              blurRadius: 5.0,
+          ),
+        ],
+      ),
+      child: SizedBox(
+        width: searchBarWidth,
         child: CupertinoTextField(
           onSubmitted: (String val) {
             classListFilter.applyTitleFilter(val);
