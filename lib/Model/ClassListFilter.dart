@@ -12,9 +12,11 @@ class ClassListFilter with ChangeNotifier{
   List<Class> filteredClasses;
 
   void init(List<Class> classes) {
-    // because it is init, unfilteredClasses == filteredClass
+    // because it is init, unfilteredClasses == filteredClass, I mean it doesn't matter
     unfilteredClasses = classes;
     filteredClasses = classes;
+    filterCoreBy = "";
+    filterExtraBy = "";
   }
 
 
@@ -38,32 +40,40 @@ class ClassListFilter with ChangeNotifier{
           filteredClasses.add(course);
         }
       }
+    } else {
+      // if filter isn't define filter should be same as unfiltered
+      for (Class course in unfilteredClasses) {
+        filteredClasses.add(course);
+      }
     }
 
+    // now filter out classes by different component from unfiltered one
+    Set<Class> set = unfilteredClasses.toSet();
     if (filterExtraBy.length != 0) {
-      // if multiple filtering, we need to filter from filteredClasses instead of unfilteredClasses
-      if (filteredClasses.length == 0) {
-        for (var course in unfilteredClasses) {
-          if (filterExtraBy == "lab" && course.isLab) {
-            filteredClasses.add(course);
-          } else if (filterExtraBy == "online" && course.room.toLowerCase() == "online") {
-            filteredClasses.add(course);
-          } else if (filterExtraBy == "remsyc" && course.room.toLowerCase() == "remsyc") {
-            filteredClasses.add(course);
-          }
-        }
-      } else {
-        for (var course in filteredClasses) {
-          if (filterExtraBy == "lab" && !course.isLab) {
-            filteredClasses.remove(course);
-          } else if (filterExtraBy == "online" && course.room.toLowerCase() != "online") {
-            filteredClasses.remove(course);
-          } else if (filterExtraBy == "remsyc" && course.room.toLowerCase() != "remsyc") {
-            filteredClasses.remove(course);
-          }
+      for (var course in unfilteredClasses) {
+        if (filterExtraBy == "lab" && !course.isLab) {
+          set.remove(course);
+        } else if (filterExtraBy == "online" && course.room.toLowerCase() != "online") {
+          set.remove(course);
+        } else if (filterExtraBy == "remsyc" && course.room.toLowerCase() != "remsyc") {
+          set.remove(course);
         }
       }
     }
+
+    // now I have filtered by core, and set of classes that is filtered by extra
+    // now find union, result would be the list that filtered by two filter components
+    List<Class> copyFiltered = [];
+    for (Class course in filteredClasses) {
+      copyFiltered.add(course);
+    }
+    for (Class course in filteredClasses) {
+      if (!set.contains(course)) {
+        copyFiltered.remove(course);
+      }
+    }
+
+    filteredClasses = copyFiltered;
 
     notifyListeners();
   }
@@ -82,6 +92,23 @@ class ClassListFilter with ChangeNotifier{
     }
 
     return res;
+  }
+
+  void setFilter(String text, String filterBy) {
+    assert(text != null);
+    assert(filterBy != null);
+
+    if (text == 'none') {
+      return;
+    }
+
+    String prefixText = text.split(' ')[0];
+
+    if (filterBy.toLowerCase() == 'core') {
+      filterCoreBy = prefixText;
+    } else if (filterBy.toLowerCase() == 'special') {
+      filterExtraBy = prefixText;
+    }
   }
 
   void removeFilter (String filterName) {

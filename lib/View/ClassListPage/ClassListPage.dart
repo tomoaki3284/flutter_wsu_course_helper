@@ -256,9 +256,4 @@ class ClassListPage extends StatelessWidget {
       ),
     );
   }
-
-  //todo
-  Widget _buildSliverAppBarContent() {
-    return Placeholder();
-  }
 }

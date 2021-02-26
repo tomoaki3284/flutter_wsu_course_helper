@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/View/ClassListPage/DropDown.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class FilterDialog extends StatelessWidget {
@@ -25,31 +28,56 @@ class FilterDialog extends StatelessWidget {
               ),
             ),
             _buildHeader('Core'),
-            _buildDropDownButton(),
+            _buildDropDownButton(kCores, 'core'),
             _buildHeader('Extra'),
-            _buildDropDownButton(),
-            _buildButtons(),
+            _buildDropDownButton(kSpecials, 'special'),
+            _buildButtons(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        _buildButtonWidget('cancel', Colors.red),
-        _buildButtonWidget('add', kPrimaryColor),
-      ],
+  Widget _buildButtons(BuildContext context) {
+    ClassListFilter classListFilter = Provider.of<ClassListFilter>(context);
+
+    return Container(
+      margin: EdgeInsets.only(top: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              goBackScreen(context);
+            },
+            child: _buildButtonWidget('cancel', Colors.red),
+          ),
+          GestureDetector(
+            onTap: () {
+              applyFilter(context);
+            },
+            child: _buildButtonWidget('filter', kPrimaryColor),
+          ),
+        ],
+      ),
     );
+  }
+
+  void applyFilter(BuildContext context) {
+    ClassListFilter classListFilter =
+        Provider.of<ClassListFilter>(context, listen: false);
+    classListFilter.applyFilter();
+    goBackScreen(context);
+  }
+
+  void goBackScreen(BuildContext context) {
+    return Navigator.of(context).pop(true);
   }
 
   Widget _buildButtonWidget(String text, Color color) {
     return Container(
       height: 40,
       width: 100,
-      margin: EdgeInsets.only(top: 60),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           color: Colors.white,
@@ -65,9 +93,7 @@ class FilterDialog extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: TextStyle(
-            color: color
-          ),
+          style: TextStyle(color: color),
         ),
       ),
     );
@@ -89,21 +115,19 @@ class FilterDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildDropDownButton() {
+  Widget _buildDropDownButton(
+      List<String> dropdownMenuItemArray, String filterType) {
+    assert(filterType != null);
+
     return Container(
+      alignment: Alignment.centerLeft,
       height: 40,
+      width: 200,
       margin: EdgeInsets.symmetric(horizontal: 20),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 3),
-            ),
-          ]),
+        child: DropDown(
+          dropdownItemArray: dropdownMenuItemArray,
+          filterType: filterType,
+      ),
     );
   }
 }

@@ -147,3 +147,25 @@ const kImgByFeatureName = {
   'prof. rating' : 'assets/images/prof_rating.png',
   'donate' : 'assets/images/donate.png',
 };
+
+const kCores = [
+  'none',
+  'ARSN - Applied Analytical Reasoning',
+  'ASCI - Allied Science',
+  'CMP - English Composition',
+  'SOCU - Social Understanding',
+  'TMTH - Traditional Mathematics',
+  'GDIV - Global Diversity',
+  'UDIV - United States Diversity',
+  'HSGV - U.S History and Government',
+  'LPA - Literary/Philosophical Analysis',
+  'AAPP - Appreciation of the Arts',
+  'LSCI - Laboratory Science',
+];
+
+const kSpecials = [
+  'none',
+  'lab course',
+  'online lecture',
+  'remsyc remote sync',
+];
