@@ -104,10 +104,12 @@ class SchedulePool with ChangeNotifier{
   void addClassToTargetSchedule (String scheduleName, Class course) {
     Logger.LogDetailed('SchedulePool.dart', 'addClassToTargetSchedule', 'method called');
     _scheduleByName[scheduleName].addClass(course);
+    notifyListeners();
   }
 
   void removeClassFromTargetSchedule (String scheduleName, Class course) {
     Logger.LogDetailed('SchedulePool.dart', 'removeClassFromTargetSchedule', 'method called');
     _scheduleByName[scheduleName].removeClass(course);
+    notifyListeners();
   }
 }

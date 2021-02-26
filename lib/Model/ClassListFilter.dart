@@ -121,4 +121,10 @@ class ClassListFilter with ChangeNotifier{
     applyFilter();
   }
 
+  void resetFilter() {
+    filterCoreBy = '';
+    filterExtraBy = '';
+    notifyListeners();
+  }
+
 }

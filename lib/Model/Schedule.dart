@@ -159,6 +159,7 @@ class Schedule with ChangeNotifier {
   void addClass (Class course) {
     if (_classes.contains(course)) {
       // TODO: Log it
+      Logger.LogDetailed('Schedule.dart', 'addClass', 'course is already in the schedule');
       return;
     }
 
@@ -170,7 +171,7 @@ class Schedule with ChangeNotifier {
 
   void removeClass (Class course) {
     if (!_classes.contains(course)) {
-      // TODO: Log it
+      Logger.LogDetailed('Schedule.dart', 'removeClass', 'course not found in the schedule');
       return;
     }
 
