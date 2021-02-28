@@ -4,7 +4,6 @@ import 'package:wsu_course_helper/Model/Class.dart';
 import '../../constants.dart';
 
 class ClassListTile extends StatelessWidget {
-
   final Class course;
 
   ClassListTile({@required this.course});
@@ -18,16 +17,17 @@ class ClassListTile extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       padding: EdgeInsets.only(top: 15, bottom: 15, left: 15),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 3),
-            ),
-          ]),
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[

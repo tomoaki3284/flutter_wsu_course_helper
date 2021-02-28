@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
+import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/WidgetUtils.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -26,19 +28,19 @@ class ClassDetailPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     var size = MediaQuery.of(context).size;
     // - 0.5 at the end for padding vertical on the parent. if not, 1 pixel overflow
-    var classBlockHeight = size.height * 0.90;
+    var classBlockHeight = size.height * 0.95;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _buildClassDetailBlock(classBlockHeight),
-        _buildScheduleDropdownBlock(),
+        _buildScheduleDropdownBlock(context),
       ],
     );
   }
 
   Widget _buildClassDetailBlock(double height) {
-    var classTileBlockHeight = 135.0;
+    var classTileBlockHeight = 140.0;
     var fullHeight = height - classTileBlockHeight;
 
     var classTimeBlockHeight = fullHeight * 0.20;
@@ -47,7 +49,19 @@ class ClassDetailPage extends StatelessWidget {
 
     return Container(
       height: fullHeight,
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -103,7 +117,7 @@ class ClassDetailPage extends StatelessWidget {
 
   Widget _buildClassDetails() {
     return Container(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 20),
       child: Column(
         children: <Widget>[
           Row(
@@ -117,7 +131,9 @@ class ClassDetailPage extends StatelessWidget {
                   course.credit.toString(), 'assets/images/timer.png'),
             ],
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Row(
             // professor, cores
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -165,19 +181,10 @@ class ClassDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildScheduleDropdownBlock() {
-    return Flexible(
-      flex: 1,
-      child: Container(
-        color: Colors.red,
-      ),
-    );
-  }
-
   Widget _buildClassTimeBlock(double height) {
     return Container(
       height: height,
-      padding: EdgeInsets.only(left: 30, top: 10),
+      padding: EdgeInsets.only(left: 30, top: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -252,10 +259,9 @@ class ClassDetailPage extends StatelessWidget {
 
   Widget _buttonsBlock(double height) {
     return Container(
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
             onTap: () {
@@ -270,6 +276,64 @@ class ClassDetailPage extends StatelessWidget {
             child: WidgetUtils.buildGeneralButtonWidget('add', kPrimaryColor),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildScheduleDropdownBlock(BuildContext context) {
+    SchedulePool scheduleList = Provider.of<SchedulePool>(context);
+
+    return Flexible(
+      flex: 1,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              flex: 8,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    'In ${scheduleList.focusedSchedule.name}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: kBlueTextColor,
+                      fontSize: 18,
+                    ),
+                  ),
+                  Text(
+                    'total credit: ${scheduleList.focusedSchedule.totalCredit}',
+                    style: TextStyle(
+                      color: kBlueTextColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Image.asset('assets/images/up_arrow.png'),
+            ),
+          ],
+        ),
       ),
     );
   }
