@@ -89,4 +89,19 @@ class Class {
     res = res.trim();
     return res.substring(0, res.length-1);
   }
+
+  List<String> getClassTimeOfEachDay() {
+    List<String> res = [];
+    for (var day in weeklyHours.keys) {
+      for (var hour in weeklyHours[day]) {
+        res.add('$day:  ${hour.getMilitaryTime()}');
+      }
+    }
+
+    if (res.isEmpty) {
+      res.add('no schedule available');
+    }
+
+    return res;
+  }
 }

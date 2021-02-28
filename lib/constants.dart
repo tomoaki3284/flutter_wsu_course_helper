@@ -4,6 +4,7 @@ const kPrimaryColor = Color(0xFF0F6AD7);
 const kTextColor = Colors.black;
 const kTextColorHint = Color(0xFF797979);
 const kBackgroundColor = Color(0xFFF3F5F7);
+const kBlueTextColor = Color(0xFF7779A4);
 
 const kColorBySubject = {
   'ART': 0xffFFCF87,

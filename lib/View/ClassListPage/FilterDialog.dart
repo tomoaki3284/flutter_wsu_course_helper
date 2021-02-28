@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/View/ClassListPage/DropDown.dart';
+import 'package:wsu_course_helper/WidgetUtils.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class FilterDialog extends StatelessWidget {
@@ -50,13 +51,13 @@ class FilterDialog extends StatelessWidget {
             onTap: () {
               goBackScreen(context);
             },
-            child: _buildButtonWidget('cancel', Colors.red),
+            child: WidgetUtils.buildGeneralButtonWidget('cancel', Colors.red),
           ),
           GestureDetector(
             onTap: () {
               applyFilter(context);
             },
-            child: _buildButtonWidget('filter', kPrimaryColor),
+            child: WidgetUtils.buildGeneralButtonWidget('filter', kPrimaryColor),
           ),
         ],
       ),
@@ -72,31 +73,6 @@ class FilterDialog extends StatelessWidget {
 
   void goBackScreen(BuildContext context) {
     return Navigator.of(context).pop(true);
-  }
-
-  Widget _buildButtonWidget(String text, Color color) {
-    return Container(
-      height: 40,
-      width: 100,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 3),
-            ),
-          ]),
-      child: Container(
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(color: color),
-        ),
-      ),
-    );
   }
 
   Widget _buildHeader(String title) {
