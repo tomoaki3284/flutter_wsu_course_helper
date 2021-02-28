@@ -31,6 +31,11 @@ class SchedulePool with ChangeNotifier{
     };
   }
 
+  set focusSchedule(Schedule schedule) {
+    _focusedSchedule = schedule;
+    notifyListeners();
+  }
+
   factory SchedulePool.fromJson(Map<String, dynamic> json) {
     Logger.LogDetailed('SchedulePool.dart', 'SchedulePool.fromJson', 'method called');
 

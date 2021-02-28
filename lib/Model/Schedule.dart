@@ -147,6 +147,10 @@ class Schedule with ChangeNotifier {
     }
   }
 
+  bool haveClass(Class course) {
+    return _classes.contains(course);
+  }
+
   // ChangeNotifier methods
   void setSchedule (List<Class> classes, String name) {
     _classes = classes;

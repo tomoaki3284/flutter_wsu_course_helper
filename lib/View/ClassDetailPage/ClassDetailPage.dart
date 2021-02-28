@@ -33,13 +33,13 @@ class ClassDetailPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        _buildClassDetailBlock(classBlockHeight),
+        _buildClassDetailBlock(context, classBlockHeight),
         _buildScheduleDropdownBlock(context),
       ],
     );
   }
 
-  Widget _buildClassDetailBlock(double height) {
+  Widget _buildClassDetailBlock(BuildContext context, double height) {
     var classTileBlockHeight = 140.0;
     var fullHeight = height - classTileBlockHeight;
 
@@ -68,7 +68,7 @@ class ClassDetailPage extends StatelessWidget {
           _buildClassTileBlock(classTileBlockHeight),
           _buildClassTimeBlock(classTimeBlockHeight),
           _buildDescriptionBlock(classDescriptionBlockHeight),
-          _buttonsBlock(buttonsHeight),
+          _buttonsBlock(context, buttonsHeight),
         ],
       ),
     );
@@ -257,21 +257,29 @@ class ClassDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buttonsBlock(double height) {
+  Widget _buttonsBlock(BuildContext context, double height) {
+    SchedulePool scheduleList =
+        Provider.of<SchedulePool>(context, listen: false);
+    bool haveClass = scheduleList.focusedSchedule.haveClass(course);
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
+          // remove button shouldn't be a option if schedule don't have the class
+          if (haveClass)
+            GestureDetector(
+              onTap: () {
+                scheduleList.removeClassFromTargetSchedule(
+                    scheduleList.focusedSchedule.name, course);
+              },
+              child: WidgetUtils.buildGeneralButtonWidget('remove', Colors.red),
+            ),
           GestureDetector(
             onTap: () {
-              // todo: remove from focus schedule
-            },
-            child: WidgetUtils.buildGeneralButtonWidget('remove', Colors.red),
-          ),
-          GestureDetector(
-            onTap: () {
-              // todo: add to focus schedule
+              scheduleList.addClassToTargetSchedule(
+                  scheduleList.focusedSchedule.name, course);
             },
             child: WidgetUtils.buildGeneralButtonWidget('add', kPrimaryColor),
           ),
@@ -330,9 +338,127 @@ class ClassDetailPage extends StatelessWidget {
             ),
             Expanded(
               flex: 2,
-              child: Image.asset('assets/images/up_arrow.png'),
+              child: GestureDetector(
+                onTap: () {
+                  // todo: open bottom sheet to select focus schedule
+                  _showBottomSheet(context);
+                },
+                child: Image.asset('assets/images/up_arrow.png'),
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // ---------------- bottom sheet related --------------------
+
+  void _showBottomSheet(BuildContext context) {
+    SchedulePool schedulePool =
+        Provider.of<SchedulePool>(context, listen: false);
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext c) {
+        return Container(
+          height: 300,
+          child: Column(
+            // header, horizontal schedule ListView, add schedule button
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 15, bottom: 10),
+                child: Text(
+                  'Set your working schedule',
+                  style: TextStyle(
+                    color: kBlueTextColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 150,
+                child: ListView.builder(
+                  itemCount: schedulePool.scheduleByName.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (con, index) {
+                    return _buildScheduleCell(index, schedulePool);
+                  },
+                ),
+              ),
+              _buildButton(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildScheduleCell(int index, SchedulePool scheduleList) {
+    String key = scheduleList.scheduleByName.keys.elementAt(index);
+
+    return GestureDetector(
+      onTap: () {
+        scheduleList.focusSchedule = scheduleList.scheduleByName[key];
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        width: 200,
+        height: 100,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: kPrimaryColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Text(
+          scheduleList.scheduleByName[key].name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton() {
+    return GestureDetector(
+      onTap: () {
+        // todo: navigate to create new schedule dialog
+      },
+      child: Container(
+        height: 40,
+        width: 200,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: Offset(0, 5),
+              ),
+            ]),
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'add new schedule',
+            style: TextStyle(color: kPrimaryColor),
+          ),
         ),
       ),
     );
