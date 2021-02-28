@@ -26,7 +26,7 @@ class ClassDetailPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     var size = MediaQuery.of(context).size;
     // - 0.5 at the end for padding vertical on the parent. if not, 1 pixel overflow
-    var classBlockHeight = size.height * 0.88;
+    var classBlockHeight = size.height * 0.90;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +38,7 @@ class ClassDetailPage extends StatelessWidget {
   }
 
   Widget _buildClassDetailBlock(double height) {
-    var classTileBlockHeight = 110.0;
+    var classTileBlockHeight = 135.0;
     var fullHeight = height - classTileBlockHeight;
 
     var classTimeBlockHeight = fullHeight * 0.20;
@@ -63,41 +63,106 @@ class ClassDetailPage extends StatelessWidget {
   Widget _buildClassTileBlock(double height) {
     return Container(
       height: height,
-      padding: EdgeInsets.only(top: 15, bottom: 15, left: 15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      padding: EdgeInsets.only(top: 15, bottom: 5, left: 15),
+      child: Column(
         children: <Widget>[
-          Flexible(
-            flex: 2,
-            child: Container(
-              child: Image.asset(kImageBySubject[course.subject]),
-            ),
-          ),
-          Flexible(
-            flex: 7,
-            child: Container(
-              padding: EdgeInsets.only(left: 5),
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 5),
-                child: Text(
-                  course.title,
-                  style: TextStyle(
-                    color: Color(0xFF7779A4),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Flexible(
+                flex: 2,
+                child: Container(
+                  child: Image.asset(kImageBySubject[course.subject]),
+                ),
+              ),
+              Flexible(
+                flex: 7,
+                child: Container(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      course.title,
+                      style: TextStyle(
+                        color: Color(0xFF7779A4),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
+          ),
+          _buildClassDetails(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClassDetails() {
+    return Container(
+      padding: EdgeInsets.only(top: 10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            // CRN, room, credit
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildClassDetailsTile(course.courseCRN, 'assets/images/crn.png'),
+              _buildClassDetailsTile(course.room, 'assets/images/room.png'),
+              _buildClassDetailsTile(
+                  course.credit.toString(), 'assets/images/timer.png'),
+            ],
+          ),
+          SizedBox(height: 5,),
+          Row(
+            // professor, cores
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _buildClassDetailsTile(course.faculty, 'assets/images/user.png'),
+              _buildClassDetailsTile(
+                  course.getCoresString(), 'assets/images/c.png'),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildClassDetails(String imagePath, String content) {
-    return Container();
+  Widget _buildClassDetailsTile(String content, String imagePath) {
+    return Flexible(
+      // flex: content.length <= 3 ? 1 : 3,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 5),
+            child: Image.asset(
+              imagePath,
+              width: 14,
+            ),
+          ),
+          Flexible(
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.only(right: 5),
+              child: Text(
+                content,
+                style: TextStyle(
+                  color: Color(0xFF7779A4),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildScheduleDropdownBlock() {
@@ -133,7 +198,7 @@ class ClassDetailPage extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: kBlueTextColor,
                     ),
@@ -151,7 +216,7 @@ class ClassDetailPage extends StatelessWidget {
   Widget _buildDescriptionBlock(double height) {
     return Container(
       height: height,
-      padding: EdgeInsets.only(left: 30),
+      padding: EdgeInsets.only(left: 30, top: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -187,6 +252,7 @@ class ClassDetailPage extends StatelessWidget {
 
   Widget _buttonsBlock(double height) {
     return Container(
+      padding: EdgeInsets.only(top: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
