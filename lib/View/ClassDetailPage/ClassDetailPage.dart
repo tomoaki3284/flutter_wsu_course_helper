@@ -6,6 +6,8 @@ import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/WidgetUtils.dart';
 import 'package:wsu_course_helper/constants.dart';
 
+import 'CreateNewScheduleDialog.dart';
+
 class ClassDetailPage extends StatelessWidget {
   final Class course;
 
@@ -388,7 +390,7 @@ class ClassDetailPage extends StatelessWidget {
                   },
                 ),
               ),
-              _buildButton(),
+              _buildButton(context),
             ],
           ),
         );
@@ -434,10 +436,11 @@ class ClassDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton() {
+  Widget _buildButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
         // todo: navigate to create new schedule dialog
+        _showDialog(context);
       },
       child: Container(
         height: 40,
@@ -462,5 +465,9 @@ class ClassDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => CreateNewScheduleDialog());
   }
 }

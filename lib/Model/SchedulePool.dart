@@ -62,8 +62,7 @@ class SchedulePool with ChangeNotifier{
   bool addSchedule (String name) {
     Logger.LogDetailed('SchedulePool.dart', 'addSchedule', 'method called');
 
-
-    if (_scheduleByName.containsKey(name)) {
+    if (name == null || name.length == 0 || _scheduleByName.containsKey(name)) {
       // new name already exist in schedulePool, so return false
       return false;
     }
