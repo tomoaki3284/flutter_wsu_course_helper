@@ -41,10 +41,14 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           child: ListView(
             children: <Widget>[
-              WelcomeBlock(),
+              Stack(
+                children: <Widget>[
+                  WelcomeBlock(),
+                  SchedulePagerBlock(),
+                ],
+              ),
               CoursesBlock(),
               FeaturesBlock(),
-              SchedulePagerBlock(),
             ],
           ),
         ),

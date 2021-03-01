@@ -11,6 +11,7 @@ class Schedule with ChangeNotifier {
   List<Class> _classes = new List<Class>();
   String _name = "";
   double _totalCredit = 0.0;
+  bool timeOverlap = false;
 
   Schedule ({List<Class> classes, @required String name}) {
     if (classes != null) {
@@ -90,6 +91,7 @@ class Schedule with ChangeNotifier {
 
     if (_classes.length <= 1) {
       // if schedule only contains one class, then no overlap
+      timeOverlap = false;
       return false;
     }
 
@@ -135,6 +137,7 @@ class Schedule with ChangeNotifier {
           if (previousClassHours[1] > currentClassHours[0]) {
             // if previous class ending time > current class starting time, there is a overlap
             // so immediately return true, to tell this is not a valid/good schedule
+            timeOverlap = true;
             return true;
           }
           // yo, don't forget, current class in this iteration, will be prev class on next iteration
@@ -143,6 +146,7 @@ class Schedule with ChangeNotifier {
       }
 
       // well, great, no overlap detected
+      timeOverlap = false;
       return false;
     }
   }

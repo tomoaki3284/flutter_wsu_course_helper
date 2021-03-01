@@ -244,7 +244,7 @@ class ClassDetailPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(15, 5, 10, 10),
               scrollDirection: Axis.vertical,
               child: Text(
-                course.classDescription,
+                course.classDescription == null ? 'Not available.' : course.classDescription,
                 style: TextStyle(
                   height: 1.7,
                   fontSize: 15,
@@ -342,7 +342,6 @@ class ClassDetailPage extends StatelessWidget {
               flex: 2,
               child: GestureDetector(
                 onTap: () {
-                  // todo: open bottom sheet to select focus schedule
                   _showBottomSheet(context);
                 },
                 child: Image.asset('assets/images/up_arrow.png'),
@@ -444,7 +443,6 @@ class ClassDetailPage extends StatelessWidget {
   Widget _buildButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // todo: navigate to create new schedule dialog
         _showDialog(context);
       },
       child: Container(
