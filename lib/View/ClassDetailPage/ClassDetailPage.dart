@@ -386,7 +386,7 @@ class ClassDetailPage extends StatelessWidget {
                   itemCount: schedulePool.scheduleByName.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (con, index) {
-                    return _buildScheduleCell(index, schedulePool);
+                    return _buildScheduleCell(index, schedulePool, con);
                   },
                 ),
               ),
@@ -398,12 +398,17 @@ class ClassDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildScheduleCell(int index, SchedulePool scheduleList) {
+  void goBackScreen(BuildContext context) {
+    return Navigator.of(context).pop(true);
+  }
+
+  Widget _buildScheduleCell(int index, SchedulePool scheduleList, BuildContext context) {
     String key = scheduleList.scheduleByName.keys.elementAt(index);
 
     return GestureDetector(
       onTap: () {
         scheduleList.focusSchedule = scheduleList.scheduleByName[key];
+        goBackScreen(context);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -468,6 +473,7 @@ class ClassDetailPage extends StatelessWidget {
   }
 
   void _showDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => CreateNewScheduleDialog());
+    showDialog(
+        context: context, builder: (context) => CreateNewScheduleDialog());
   }
 }
