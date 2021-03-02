@@ -170,6 +170,7 @@ class ClassDetailPage extends StatelessWidget {
               margin: EdgeInsets.only(right: 5),
               child: Text(
                 content,
+                maxLines: 2,
                 style: TextStyle(
                   color: Color(0xFF7779A4),
                   fontSize: 12,
@@ -244,7 +245,7 @@ class ClassDetailPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(15, 5, 10, 10),
               scrollDirection: Axis.vertical,
               child: Text(
-                course.classDescription == null ? 'Not available.' : course.classDescription,
+                course.classDescription,
                 style: TextStyle(
                   height: 1.7,
                   fontSize: 15,

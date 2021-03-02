@@ -82,7 +82,7 @@ const kImageBySubject = {
   'PSYC': 'assets/images/BOOK.png',
   'MRKT': 'assets/images/MRKT.png',
   'MATH': 'assets/images/MATH.png',
-  'Lab': 'assets/images/CHEM.png',
+  'Lab': 'assets/images/Lab.png',
   'HESC': 'assets/images/HESC.png',
   'NURS': 'assets/images/NURS.png',
   'PHSC': 'assets/images/PHSC.png',

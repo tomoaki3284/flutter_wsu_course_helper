@@ -12,6 +12,8 @@ class ClassListTile extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     var width = size.width * 0.95;
 
+    String imagePath = kImageBySubject[course.subject] == null ? 'assets/images/BOOK.png' : kImageBySubject[course.subject];
+
     return Container(
       width: width,
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -34,7 +36,7 @@ class ClassListTile extends StatelessWidget {
           Flexible(
             flex: 2,
             child: Container(
-              child: Image.asset(kImageBySubject[course.subject]),
+              child: Image.asset(imagePath),
             ),
           ),
           Flexible(

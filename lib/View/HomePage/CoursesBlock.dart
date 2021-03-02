@@ -37,7 +37,7 @@ class CoursesBlock extends StatelessWidget {
 
   Widget _buildSubjectCell(BuildContext context, String subjectAlias, ClassList classes) {
     var color = kColorBySubject[subjectAlias] == null
-        ? kPrimaryColor
+        ? 0xFF0F6AD7
         : kColorBySubject[subjectAlias];
     var image = kImageBySubject[subjectAlias] == null
         ? 'assets/images/BOOK.png'

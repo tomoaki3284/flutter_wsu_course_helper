@@ -54,9 +54,14 @@ class ClassList with ChangeNotifier {
     }
     
     _subjects.sort((a,b) => a.compareTo(b));
+    // for all classes list
+    _subjects.insert(0, 'All');
   }
 
   void setClassesBySubject () {
+    // for all classes list
+    _classesBySubject['All'] = _allClasses;
+
     for (var course in _allClasses) {
       if (_classesBySubject.containsKey(course.subject)) {
         _classesBySubject[course.subject].add(course);

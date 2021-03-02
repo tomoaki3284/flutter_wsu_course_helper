@@ -50,8 +50,7 @@ class ClassListPage extends StatelessWidget {
 
   SliverAppBar _buildTopSliverAppBar() {
     return SliverAppBar(
-      floating: false,
-      pinned: false,
+      pinned: true,
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
