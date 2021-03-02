@@ -144,7 +144,7 @@ const kSubjectByAlias = {
 };
 
 const kImgByFeatureName = {
-  'auto scheduler' : 'assets/images/auto_scheduler.png',
+  'scheduler' : 'assets/images/scheduler.png',
   'prof. rating' : 'assets/images/prof_rating.png',
   'donate' : 'assets/images/donate.png',
 };

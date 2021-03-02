@@ -21,7 +21,7 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
     SchedulePool scheduleList = Provider.of<SchedulePool>(context);
 
     return Container(
-      margin: EdgeInsets.only(top: 140, bottom: 20),
+      margin: EdgeInsets.only(top: 140, bottom: 35),
       child: Column(
         children: <Widget>[
           Container(
@@ -110,8 +110,7 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
                   padding: EdgeInsets.only(left: 20, top: 20),
                   child: Text(
                     scheduleName,
-                    style:
-                        TextStyle(color: kPrimaryColor, fontSize: 18),
+                    style: TextStyle(color: kPrimaryColor, fontSize: 18),
                   ),
                 ),
               ),
@@ -140,12 +139,11 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
         ),
         Flexible(
           flex: 5,
-          // todo: change this to proper image
           child: Container(
             alignment: Alignment.center,
-            child: Image.asset(
-              scheduleOverlap ? 'assets/images/schedule_no.png' : 'assets/images/schedule_yes.png'
-            ),
+            child: Image.asset(scheduleOverlap
+                ? 'assets/images/schedule_no.png'
+                : 'assets/images/schedule_yes.png'),
           ),
         ),
       ],

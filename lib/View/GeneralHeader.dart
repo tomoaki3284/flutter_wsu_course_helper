@@ -9,7 +9,7 @@ class GeneralHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
       child: Row(
         children: <Widget>[
           Flexible(
