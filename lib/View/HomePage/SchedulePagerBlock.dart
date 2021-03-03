@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/Model/User.dart';
+import 'package:wsu_course_helper/View/SchedulePage/SchedulePage.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class SchedulePagerBlock extends StatefulWidget {
@@ -62,21 +63,29 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
 
   /// parameter schedule is nullable
   Widget _buildScheduleCell(Schedule schedule) {
-    return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: Offset(3, 7),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SchedulePage(schedule: schedule,)),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(3, 7),
+            ),
+          ],
+        ),
+        child: _buildScheduleCellContent(schedule),
       ),
-      child: _buildScheduleCellContent(schedule),
     );
   }
 

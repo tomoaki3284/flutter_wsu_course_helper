@@ -9,6 +9,7 @@ import 'Hours.dart';
 class Schedule with ChangeNotifier {
 
   List<Class> _classes = new List<Class>();
+  Map<String, List<Class>> classesByWeekDay = {};
   String _name = "";
   double _totalCredit = 0.0;
   bool timeOverlap = false;
@@ -19,11 +20,25 @@ class Schedule with ChangeNotifier {
     }
     _name = name;
     setTotalCredit();
+    setClassesByWeekDay();
   }
 
   String get name => _name;
 
   double get totalCredit => _totalCredit;
+
+  void setClassesByWeekDay () {
+    for (Class course in _classes) {
+      Map<String, List<Hours>> weeklyHours = course.weeklyHours;
+      for (String dayOfWeek in weeklyHours.keys) {
+        if (classesByWeekDay[dayOfWeek] == null) {
+          classesByWeekDay[dayOfWeek] = [course];
+        } else {
+          classesByWeekDay[dayOfWeek].add(course);
+        }
+      }
+    }
+  }
 
   void setTotalCredit () {
     _totalCredit = 0;
@@ -171,6 +186,15 @@ class Schedule with ChangeNotifier {
       return;
     }
 
+    // when add class, need to add to classesByWeek as well
+    for (String dayOfWeek in course.weeklyHours.keys) {
+      if (classesByWeekDay[dayOfWeek] == null) {
+        classesByWeekDay[dayOfWeek] = [course];
+      } else {
+        classesByWeekDay[dayOfWeek].add(course);
+      }
+    }
+
     _classes.add(course);
     _totalCredit += course.credit;
 
@@ -181,6 +205,11 @@ class Schedule with ChangeNotifier {
     if (!_classes.contains(course)) {
       Logger.LogDetailed('Schedule.dart', 'removeClass', 'course not found in the schedule');
       return;
+    }
+
+    // when remove class, need to remove from classesByWeek as well
+    for (String dayOfWeek in course.weeklyHours.keys) {
+      classesByWeekDay[dayOfWeek].remove(course);
     }
 
     _classes.remove(course);

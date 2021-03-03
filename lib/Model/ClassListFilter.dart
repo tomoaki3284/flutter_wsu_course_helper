@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 
 class ClassListFilter with ChangeNotifier{
@@ -19,8 +20,6 @@ class ClassListFilter with ChangeNotifier{
     filterExtraBy = "";
   }
 
-
-
   void applyTitleFilter (String filterTitleBy) {
     filteredClasses = [];
     for (var course in unfilteredClasses) {
@@ -35,9 +34,17 @@ class ClassListFilter with ChangeNotifier{
   void applyFilter () {
     filteredClasses = [];
     if (filterCoreBy.length != 0) {
-      for (var course in unfilteredClasses) {
-        if (course.cores != null && course.cores.contains(filterCoreBy)) {
-          filteredClasses.add(course);
+      if (filterCoreBy == 'DoubleDipper') {
+        for (var course in unfilteredClasses) {
+          if (course.cores != null && course.cores.length >= 2) {
+            filteredClasses.add(course);
+          }
+        }
+      } else {
+        for (var course in unfilteredClasses) {
+          if (course.cores != null && course.cores.contains(filterCoreBy)) {
+            filteredClasses.add(course);
+          }
         }
       }
     } else {
