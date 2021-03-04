@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
-import 'package:wsu_course_helper/View/GeneralHeader.dart';
+import 'package:wsu_course_helper/Model/SchedulePool.dart';
+import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
 import 'package:wsu_course_helper/View/SchedulePage/ScheduleTimeLineBlock.dart';
 import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/constants.dart';
@@ -183,14 +184,26 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildClassesListView(BuildContext context) {
-    // Schedule schedule = Provider.of<Schedule>(context);
+    SchedulePool scheduleList = Provider.of<SchedulePool>(context);
 
     return Container(
       height: 400,
       child: ListView.builder(
         itemCount: schedule.classes.length,
         itemBuilder: (c, index) {
-          return ClassListTile(course: schedule.classes[index]);
+          return GestureDetector(
+            onTap: () {
+              scheduleList.focusSchedule = schedule;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ClassDetailPage(course: schedule.classes[index]),
+                ),
+              );
+            },
+            child: ClassListTile(course: schedule.classes[index]),
+          );
         },
       ),
     );
