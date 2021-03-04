@@ -1,26 +1,27 @@
 class Hours {
 
-  final int startHours, startMinute, endHour, endMinute;
+  final int startHour, startMinute, endHour, endMinute;
   String militaryTime;
   String hoursString;
 
-  Hours({this.startHours, this.startMinute, this.endHour, this.endMinute});
+  Hours({this.startHour, this.startMinute, this.endHour, this.endMinute});
 
   factory Hours.fromJson(Map<String, dynamic> json) {
     return Hours(
-      startHours: json["startHour"],
+      startHour: json["startHour"],
       startMinute: json["startMinute"],
       endHour: json["endHour"],
       endMinute: json["endMinute"],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    'startHours': startHours,
-    'startMinute': startMinute,
-    'endHours': endHour,
-    'endMinute': endMinute,
-  };
+  Map<String, dynamic> toJson() =>
+      {
+        'startHours': startHour,
+        'startMinute': startMinute,
+        'endHours': endHour,
+        'endMinute': endMinute,
+      };
 
   /// Get the interval from of open hours
   ///
@@ -28,9 +29,32 @@ class Hours {
   /// which is equivalent of int[] {starting hour in minute, ending hour in minute}
   List<int> getInIntervalForm() {
     List<int> result = new List();
-    result.add(startHours*60 + startMinute);
-    result.add(endHour*60 + endMinute);
+    result.add(startHour * 60 + startMinute);
+    result.add(endHour * 60 + endMinute);
     return result;
+  }
+
+  double getHourLength() {
+    if (startMinute > endMinute) {
+      return endHour - startHour - 1.0;
+    } else {
+      return endHour - startHour + 0.0;
+    }
+  }
+
+  double getMinuteLength() {
+    // if within same hour
+    if (endHour - startHour == 0) {
+      return endMinute - startMinute + 0.0;
+    } else {
+      int gap = 60 - startMinute;
+      return endMinute + gap + 0.0;
+    }
+  }
+
+  double getInHourFloatFormat() {
+    double res = getHourLength() / 1.0 + getMinuteLength() / 60.0;
+    return res;
   }
 
   String getMilitaryTime() {
@@ -44,12 +68,12 @@ class Hours {
     String eMilHour = "";
     String eMilMin = "";
 
-    if (startHours < 10) {
-      sMilHour = "0$startHours";
+    if (startHour < 10) {
+      sMilHour = "0$startHour";
     } else {
-      sMilHour = "$startHours";
+      sMilHour = "$startHour";
     }
-    if (startHours < 10) {
+    if (startMinute < 10) {
       sMilMin = "0$startMinute";
     } else {
       sMilMin = "$startMinute";

@@ -35,18 +35,30 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: AppBar(
         title: Text('Schedule'),
       ),
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
-        child: Column(
-          // tab button, week timeline, classes list
-          children: <Widget>[
-            Flexible(
-              flex: 1,
-              child: _buildTabButtons(),
-            ),
-            _buildTabPage(),
-            _buildClassesListView(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            // tab button, week timeline, classes list
+            children: <Widget>[
+              _buildScheduleTimeLine(),
+              _buildClassesListView(),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildScheduleTimeLine() {
+    return Container(
+      color: Colors.white,
+      margin: EdgeInsets.only(right: 10, left: 10, top: 10, bottom: 10),
+      child: Column(
+        children: [
+          _buildTabButtons(),
+          _buildTabPage(),
+        ],
       ),
     );
   }
@@ -109,28 +121,28 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildTabPage() {
-    return Expanded(
-      flex: 8,
+    return Container(
+      height: 400,
       child: PageView(
         children: <Widget>[
           ScheduleTimeLineBlock(
-            classes: schedule.classesByWeekDay['MONDAY'],
+            classes: schedule.classesByWeekDay['MONDAY'] ?? [],
             dayOfWeek: 'MONDAY',
           ),
           ScheduleTimeLineBlock(
-            classes: schedule.classesByWeekDay['TUESDAY'],
+            classes: schedule.classesByWeekDay['TUESDAY'] ?? [],
             dayOfWeek: 'TUESDAY',
           ),
           ScheduleTimeLineBlock(
-            classes: schedule.classesByWeekDay['WEDNESDAY'],
+            classes: schedule.classesByWeekDay['WEDNESDAY'] ?? [],
             dayOfWeek: 'WEDNESDAY',
           ),
           ScheduleTimeLineBlock(
-            classes: schedule.classesByWeekDay['THURSDAY'],
+            classes: schedule.classesByWeekDay['THURSDAY'] ?? [],
             dayOfWeek: 'THURSDAY',
           ),
           ScheduleTimeLineBlock(
-            classes: schedule.classesByWeekDay['FRIDAY'],
+            classes: schedule.classesByWeekDay['FRIDAY'] ?? [],
             dayOfWeek: 'FRIDAY',
           ),
         ],
@@ -139,7 +151,10 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildClassesListView() {
-    return Container();
+    return Container(
+      color: Colors.cyan,
+      height: 400,
+    );
   }
 }
 

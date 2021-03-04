@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../Logger.dart';
 import 'Class.dart';
 import 'Hours.dart';
 
 class Schedule with ChangeNotifier {
-
   List<Class> _classes = new List<Class>();
   Map<String, List<Class>> classesByWeekDay = {};
   String _name = "";
   double _totalCredit = 0.0;
   bool timeOverlap = false;
 
-  Schedule ({List<Class> classes, @required String name}) {
+  Schedule({List<Class> classes, @required String name}) {
     if (classes != null) {
       _classes = classes;
     }
@@ -27,7 +27,7 @@ class Schedule with ChangeNotifier {
 
   double get totalCredit => _totalCredit;
 
-  void setClassesByWeekDay () {
+  void setClassesByWeekDay() {
     for (Class course in _classes) {
       Map<String, List<Hours>> weeklyHours = course.weeklyHours;
       for (String dayOfWeek in weeklyHours.keys) {
@@ -40,7 +40,7 @@ class Schedule with ChangeNotifier {
     }
   }
 
-  void setTotalCredit () {
+  void setTotalCredit() {
     _totalCredit = 0;
 
     if (_classes == null || _classes.length == 0) {
@@ -53,10 +53,10 @@ class Schedule with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
-    '_classes': _classes,
-    '_name': _name,
-    '_totalCredit': _totalCredit,
-  };
+        '_classes': _classes,
+        '_name': _name,
+        '_totalCredit': _totalCredit,
+      };
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
     Logger.LogDetailed('Schedule.dart', 'Schedule.fromJson', 'method called');
@@ -102,7 +102,8 @@ class Schedule with ChangeNotifier {
   /// In this case, this algorithms is not perfect. But it work most of the time...
   /// Good luck figuring this out future me, I'm bit tired right now. 2/19/2021
   bool doesClassHoursOverlap() {
-    Logger.LogDetailed('Schedule.dart', 'doesClassHoursOverlap', 'method called');
+    Logger.LogDetailed(
+        'Schedule.dart', 'doesClassHoursOverlap', 'method called');
 
     if (_classes.length <= 1) {
       // if schedule only contains one class, then no overlap
@@ -123,47 +124,48 @@ class Schedule with ChangeNotifier {
           classesInWeeks[dayOfWeek].add(course);
         }
       }
-
-      // 2. sort each List<Class>, order of starting hours of the class
-      // -> gotta do this on each day of week, so need to iterate
-      for (var dayOfWeek in classesInWeeks.keys) {
-        classesInWeeks[dayOfWeek].sort((a, b) {
-          // some class has two classes on one day, so in this case, just get first hours
-          // that's why [0] at the tail
-          Hours class1Hours = a.weeklyHours[dayOfWeek][0];
-          Hours class2Hours = b.weeklyHours[dayOfWeek][0];
-          // get the starting hours of each class. Refer getIntervalForm in Hours.dart for details
-          int class1StartTime = class1Hours.getInIntervalForm()[0];
-          int class2StartTime = class2Hours.getInIntervalForm()[0];
-          // simply return the result, the smaller start time = earlier start time
-          return class1StartTime - class2StartTime;
-        });
-      }
-
-      // 3. check adjacent classes for overlap detection (look e.g. if you don't understand)
-      // note: at this point, the List<Class> is sorted in (step 2) in each day of week
-      for (var dayOfWeek in classesInWeeks.keys) {
-        List<Class> classes = classesInWeeks[dayOfWeek];
-
-        // b/c below loop would start from i=1, classes[0] is the previous class
-        List<int> previousClassHours = classes[0].weeklyHours[dayOfWeek][0].getInIntervalForm();
-        for (int i=1; i<classes.length; i++) {
-          List<int> currentClassHours = classes[i].weeklyHours[dayOfWeek][0].getInIntervalForm();
-          if (previousClassHours[1] > currentClassHours[0]) {
-            // if previous class ending time > current class starting time, there is a overlap
-            // so immediately return true, to tell this is not a valid/good schedule
-            timeOverlap = true;
-            return true;
-          }
-          // yo, don't forget, current class in this iteration, will be prev class on next iteration
-          previousClassHours = currentClassHours;
-        }
-      }
-
-      // well, great, no overlap detected
-      timeOverlap = false;
-      return false;
     }
+
+    // 2. sort each List<Class>, order of starting hours of the class
+    // -> gotta do this on each day of week, so need to iterate
+    for (var dayOfWeek in classesInWeeks.keys) {
+      classesInWeeks[dayOfWeek].sort((a, b) {
+        // some class has two classes on one day, so in this case, just get first hours
+        // that's why [0] at the tail
+        Hours class1Hours = a.weeklyHours[dayOfWeek][0];
+        Hours class2Hours = b.weeklyHours[dayOfWeek][0];
+        // get the starting hours of each class. Refer getIntervalForm in Hours.dart for details
+        int class1StartTime = class1Hours.getInIntervalForm()[0];
+        int class2StartTime = class2Hours.getInIntervalForm()[0];
+        // simply return the result, the smaller start time = earlier start time
+        return class1StartTime - class2StartTime;
+      });
+    }
+
+    // 3. check adjacent classes for overlap detection (look e.g. if you don't understand)
+    // note: at this point, the List<Class> is sorted in (step 2) in each day of week
+    for (var dayOfWeek in classesInWeeks.keys) {
+      List<Class> classes = classesInWeeks[dayOfWeek];
+      // b/c below loop would start from i=1, classes[0] is the previous class
+      List<int> previousClassHours =
+      classes[0].weeklyHours[dayOfWeek][0].getInIntervalForm();
+      for (int i = 1; i < classes.length; i++) {
+        List<int> currentClassHours =
+        classes[i].weeklyHours[dayOfWeek][0].getInIntervalForm();
+        if (previousClassHours[1] > currentClassHours[0]) {
+          // if previous class ending time > current class starting time, there is a overlap
+          // so immediately return true, to tell this is not a valid/good schedule
+          timeOverlap = true;
+          return true;
+        }
+        // yo, don't forget, current class in this iteration, will be prev class on next iteration
+        previousClassHours = currentClassHours;
+      }
+    }
+
+    // well, great, no overlap detected
+    timeOverlap = false;
+    return false;
   }
 
   bool haveClass(Class course) {
@@ -171,7 +173,7 @@ class Schedule with ChangeNotifier {
   }
 
   // ChangeNotifier methods
-  void setSchedule (List<Class> classes, String name) {
+  void setSchedule(List<Class> classes, String name) {
     _classes = classes;
     _name = name;
     setTotalCredit();
@@ -179,10 +181,11 @@ class Schedule with ChangeNotifier {
     notifyListeners();
   }
 
-  void addClass (Class course) {
+  void addClass(Class course) {
     if (_classes.contains(course)) {
       // TODO: Log it
-      Logger.LogDetailed('Schedule.dart', 'addClass', 'course is already in the schedule');
+      Logger.LogDetailed(
+          'Schedule.dart', 'addClass', 'course is already in the schedule');
       return;
     }
 
@@ -201,9 +204,10 @@ class Schedule with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeClass (Class course) {
+  void removeClass(Class course) {
     if (!_classes.contains(course)) {
-      Logger.LogDetailed('Schedule.dart', 'removeClass', 'course not found in the schedule');
+      Logger.LogDetailed(
+          'Schedule.dart', 'removeClass', 'course not found in the schedule');
       return;
     }
 
