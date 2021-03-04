@@ -27,6 +27,8 @@ class Schedule with ChangeNotifier {
 
   double get totalCredit => _totalCredit;
 
+  List<Class> get classes => _classes;
+
   void setClassesByWeekDay() {
     for (Class course in _classes) {
       Map<String, List<Hours>> weeklyHours = course.weeklyHours;
@@ -148,10 +150,10 @@ class Schedule with ChangeNotifier {
       List<Class> classes = classesInWeeks[dayOfWeek];
       // b/c below loop would start from i=1, classes[0] is the previous class
       List<int> previousClassHours =
-      classes[0].weeklyHours[dayOfWeek][0].getInIntervalForm();
+          classes[0].weeklyHours[dayOfWeek][0].getInIntervalForm();
       for (int i = 1; i < classes.length; i++) {
         List<int> currentClassHours =
-        classes[i].weeklyHours[dayOfWeek][0].getInIntervalForm();
+            classes[i].weeklyHours[dayOfWeek][0].getInIntervalForm();
         if (previousClassHours[1] > currentClassHours[0]) {
           // if previous class ending time > current class starting time, there is a overlap
           // so immediately return true, to tell this is not a valid/good schedule

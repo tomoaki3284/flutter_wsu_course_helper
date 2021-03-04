@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
+import 'package:wsu_course_helper/View/GeneralHeader.dart';
 import 'package:wsu_course_helper/View/SchedulePage/ScheduleTimeLineBlock.dart';
+import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -15,17 +18,20 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   final Schedule schedule;
   int _selectedPage = 0;
+  PageController _pageController;
 
   _SchedulePageState({@required this.schedule});
 
   @override
   void initState() {
     assert(schedule != null);
+    _pageController = PageController();
     super.initState();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -42,7 +48,8 @@ class _SchedulePageState extends State<SchedulePage> {
             // tab button, week timeline, classes list
             children: <Widget>[
               _buildScheduleTimeLine(),
-              _buildClassesListView(),
+              _buildHeader(),
+              _buildClassesListView(context),
             ],
           ),
         ),
@@ -66,6 +73,11 @@ class _SchedulePageState extends State<SchedulePage> {
   void _changePage(int pageNum) {
     setState(() {
       _selectedPage = pageNum;
+      _pageController.animateToPage(
+        pageNum,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.fastLinearToSlowEaseIn,
+      );
     });
   }
 
@@ -73,7 +85,7 @@ class _SchedulePageState extends State<SchedulePage> {
     return Container(
       alignment: Alignment.center,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           TabButton(
             text: 'Mon',
@@ -124,6 +136,12 @@ class _SchedulePageState extends State<SchedulePage> {
     return Container(
       height: 400,
       child: PageView(
+        controller: _pageController,
+        onPageChanged: (int page) {
+          setState(() {
+            _selectedPage = page;
+          });
+        },
         children: <Widget>[
           ScheduleTimeLineBlock(
             classes: schedule.classesByWeekDay['MONDAY'] ?? [],
@@ -150,10 +168,31 @@ class _SchedulePageState extends State<SchedulePage> {
     );
   }
 
-  Widget _buildClassesListView() {
+  Widget _buildHeader() {
     return Container(
-      color: Colors.cyan,
+      alignment: Alignment.centerLeft,
+      margin: EdgeInsets.only(top: 35, bottom: 35, left: 15, right: 15),
+      child: Text(
+        'Classes on your schedule',
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildClassesListView(BuildContext context) {
+    // Schedule schedule = Provider.of<Schedule>(context);
+
+    return Container(
       height: 400,
+      child: ListView.builder(
+        itemCount: schedule.classes.length,
+        itemBuilder: (c, index) {
+          return ClassListTile(course: schedule.classes[index]);
+        },
+      ),
     );
   }
 }
@@ -178,14 +217,21 @@ class TabButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 25),
         child: Text(
           text ?? 'tab N',
           style: TextStyle(
+            shadows: [
+              Shadow(
+                color: tabColor,
+                offset: Offset(0, -6),
+              )
+            ],
+            fontSize: 16,
+            color: Colors.transparent,
             decoration: TextDecoration.underline,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            color: tabColor,
+            decorationColor: tabColor,
+            decorationThickness: 1,
           ),
         ),
       ),
