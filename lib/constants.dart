@@ -151,6 +151,7 @@ const kImgByFeatureName = {
 
 const kCores = [
   'none',
+  'DoubleDipper',
   'ARSN - Applied Analytical Reasoning',
   'ASCI - Allied Science',
   'CMP - English Composition',
