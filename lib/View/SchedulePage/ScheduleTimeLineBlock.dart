@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
@@ -38,11 +40,13 @@ class ScheduleTimeLineBlock extends StatelessWidget {
     return Container(
         width: 40,
         decoration: BoxDecoration(
-            border: Border(
-                right: BorderSide(
-          color: Colors.grey,
-          width: 1,
-        ))),
+          border: Border(
+            right: BorderSide(
+              color: Colors.grey,
+              width: 1,
+            ),
+          ),
+        ),
         child: Column(
           children: <Widget>[
             _buildTime('7:00'),
@@ -101,6 +105,11 @@ class ScheduleTimeLineBlock extends StatelessWidget {
   // so fix this to make it appear two of them.
   Widget _buildTimeCell(int index, double parentWidth) {
     Class course = classes[index];
+
+    Color cellColor = kColorBySubject[course.subject] == null
+        ? kPrimaryColor
+        : Color(kColorBySubject[course.subject]);
+
     Hours hours = course.weeklyHours[dayOfWeek][0];
     int classStartHour = hours == null ? 0 : hours.startHour;
     int classStartMinute = hours == null ? 0 : hours.startMinute;
@@ -111,12 +120,12 @@ class ScheduleTimeLineBlock extends StatelessWidget {
     double posY = hours == null
         ? 0
         : (classStartHour - beginningTimeInTimeLine) * cellHeightPerHour +
-            classStartMinute +
-            14.0;
+        classStartMinute +
+        14.0;
 
     // class cell height is (block height per hour * class time in hour)
     double cellHeight =
-        hours == null ? 0 : hours.getInHourFloatFormat() * cellHeightPerHour;
+    hours == null ? 0 : hours.getInHourFloatFormat() * cellHeightPerHour;
 
     String cellName = course.title;
     String classTime = course.weeklyHours[dayOfWeek][0].getMilitaryTime();
@@ -130,7 +139,7 @@ class ScheduleTimeLineBlock extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          color: kPrimaryColor,
+          color: cellColor,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -140,24 +149,28 @@ class ScheduleTimeLineBlock extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Text(
-              cellName,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                cellName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            Text(
-              classTime,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+              Text(
+                classTime,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

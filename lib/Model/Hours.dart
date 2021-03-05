@@ -43,6 +43,10 @@ class Hours {
   }
 
   double getMinuteLength() {
+    if (startMinute == endMinute) {
+      return 0.0;
+    }
+
     // if within same hour
     if (endHour - startHour == 0) {
       return endMinute - startMinute + 0.0;
