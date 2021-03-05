@@ -47,14 +47,15 @@ class ClassList with ChangeNotifier {
   
   void setSubjectsList() {
     for (String subject in _classesBySubject.keys) {
-      if (subject == null || subject.length == 0 || subject == 'Lab'){
+      if (subject == null || subject.length == 0 || subject == 'Lab') {
         continue;
       }
       _subjects.add(subject);
     }
-    
-    _subjects.sort((a,b) => a.compareTo(b));
+
+    _subjects.sort((a, b) => a.compareTo(b));
     // for all classes list
+    _subjects.remove('All');
     _subjects.insert(0, 'All');
   }
 
