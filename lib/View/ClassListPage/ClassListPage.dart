@@ -112,8 +112,8 @@ class ClassListPage extends StatelessWidget {
         width: searchBarWidth,
         child: CupertinoTextField(
           onSubmitted: (String val) {
-            classListFilter.applyTitleFilter(val);
-            print("$val : filter with this");
+            classListFilter.filterTitleBy = val ?? '';
+            classListFilter.applyFilter();
           },
           keyboardType: TextInputType.text,
           placeholder: 'Search',

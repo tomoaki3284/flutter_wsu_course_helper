@@ -2,13 +2,15 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:wsu_course_helper/Logger.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 
-class ClassListFilter with ChangeNotifier{
-
-  
+class ClassListFilter with ChangeNotifier {
   String filterCoreBy = "";
   String filterExtraBy = "";
+  String filterSubjectBy = "";
+  String filterTitleBy = "";
+
   List<Class> unfilteredClasses;
   List<Class> filteredClasses;
 
@@ -20,7 +22,7 @@ class ClassListFilter with ChangeNotifier{
     filterExtraBy = "";
   }
 
-  void applyTitleFilter (String filterTitleBy) {
+  void applyTitleFilter(String filterTitleBy) {
     filteredClasses = [];
     for (var course in unfilteredClasses) {
       if (course.title.toLowerCase().contains(filterTitleBy)) {
@@ -31,61 +33,96 @@ class ClassListFilter with ChangeNotifier{
     notifyListeners();
   }
 
-  void applyFilter () {
-    filteredClasses = [];
-    if (filterCoreBy.length != 0) {
-      if (filterCoreBy == 'DoubleDipper') {
-        for (var course in unfilteredClasses) {
-          if (course.cores != null && course.cores.length >= 2) {
-            filteredClasses.add(course);
-          }
-        }
-      } else {
-        for (var course in unfilteredClasses) {
-          if (course.cores != null && course.cores.contains(filterCoreBy)) {
-            filteredClasses.add(course);
-          }
-        }
-      }
-    } else {
-      // if filter isn't define filter should be same as unfiltered
-      for (Class course in unfilteredClasses) {
-        filteredClasses.add(course);
-      }
+  void applyFilter() {
+    Set<Class> filteredSet = {};
+
+    Logger.LogDetailed('ClassListFilter.dart', 'applyFilter', 'method called');
+
+    // add all course to set
+    for (Class course in unfilteredClasses) {
+      filteredSet.add(course);
     }
 
-    // now filter out classes by different component from unfiltered one
-    Set<Class> set = unfilteredClasses.toSet();
-    if (filterExtraBy.length != 0) {
-      for (var course in unfilteredClasses) {
-        if (filterExtraBy == "lab" && !course.isLab) {
-          set.remove(course);
-        } else if (filterExtraBy == "online" && course.room.toLowerCase() != "online") {
-          set.remove(course);
-        } else if (filterExtraBy == "remsyc" && course.room.toLowerCase() != "remsyc") {
-          set.remove(course);
-        }
-      }
-    }
+    // then remove any course that doesn't meet the filter requirement
+    // first filter by core
+    _filterCore(filteredSet, {});
+    // then filter by special category
+    _filterExtra(filteredSet, {});
+    // then filter by subject
+    _filterSubject(filteredSet, {});
+    // then filter by title
+    _filterTitle(filteredSet, {});
 
-    // now I have filtered by core, and set of classes that is filtered by extra
-    // now find union, result would be the list that filtered by two filter components
-    List<Class> copyFiltered = [];
-    for (Class course in filteredClasses) {
-      copyFiltered.add(course);
-    }
-    for (Class course in filteredClasses) {
-      if (!set.contains(course)) {
-        copyFiltered.remove(course);
-      }
-    }
+    print('finish');
 
-    filteredClasses = copyFiltered;
-
+    filteredClasses = filteredSet.toList();
     notifyListeners();
   }
 
-  List<String> getFilterComponents () {
+  void _copySetFromTo(Set filteredSet, Set copy) {
+    for (Class course in filteredSet) {
+      copy.add(course);
+    }
+  }
+
+  void _filterCore(Set filteredSet, Set copy) {
+    _copySetFromTo(filteredSet, copy);
+    if (filterCoreBy != null && filterCoreBy.length != 0) {
+      bool doubleDip = filterCoreBy == 'DoubleDipper';
+      String coreFilter = filterCoreBy.split(' ')[0];
+      for (Class course in copy) {
+        if (doubleDip) {
+          if (course.cores.length < 2) {
+            filteredSet.remove(course);
+          }
+        } else if (!course.cores.contains(coreFilter)) {
+          filteredSet.remove(course);
+        }
+      }
+    }
+  }
+
+  void _filterExtra(Set filteredSet, Set copy) {
+    _copySetFromTo(filteredSet, copy);
+    if (filterExtraBy != null && filterExtraBy.length != 0) {
+      bool labFilter = filterExtraBy == 'lab';
+      bool onlineFilter = filterExtraBy == 'online';
+      bool remsycFilter = filterExtraBy == 'remsyc';
+      for (Class course in copy) {
+        if (labFilter && !course.isLab) {
+          filteredSet.remove(course);
+        } else if (onlineFilter && course.room.toLowerCase() != 'online') {
+          filteredSet.remove(course);
+        } else if (remsycFilter && course.room.toLowerCase() != 'remsyc') {
+          filteredSet.remove(course);
+        }
+      }
+    }
+  }
+
+  void _filterSubject(Set filteredSet, Set copy) {
+    _copySetFromTo(filteredSet, copy);
+    if (filterSubjectBy != null && filterSubjectBy.length != 0) {
+      for (Class course in copy) {
+        if (course.subject != filterSubjectBy) {
+          filteredSet.remove(course);
+        }
+      }
+    }
+  }
+
+  void _filterTitle(Set filteredSet, Set copy) {
+    _copySetFromTo(filteredSet, copy);
+    if (filterTitleBy != null && filterTitleBy.length != 0) {
+      for (Class course in copy) {
+        if (!course.title.toLowerCase().contains(filterTitleBy)) {
+          filteredSet.remove(course);
+        }
+      }
+    }
+  }
+
+  List<String> getFilterComponents() {
     if (filterCoreBy.length == 0 && filterExtraBy.length == 0) {
       return [];
     }
@@ -96,6 +133,9 @@ class ClassListFilter with ChangeNotifier{
     }
     if (filterExtraBy.length != 0) {
       res.add(filterExtraBy);
+    }
+    if (filterSubjectBy.length != 0) {
+      res.add(filterSubjectBy);
     }
 
     return res;
@@ -115,14 +155,18 @@ class ClassListFilter with ChangeNotifier{
       filterCoreBy = prefixText;
     } else if (filterBy.toLowerCase() == 'special') {
       filterExtraBy = prefixText;
+    } else if (filterBy.toLowerCase() == 'subject') {
+      filterSubjectBy = text;
     }
   }
 
-  void removeFilter (String filterName) {
+  void removeFilter(String filterName) {
     if (filterCoreBy == filterName) {
-      filterCoreBy = "";
+      filterCoreBy = '';
     } else if (filterExtraBy == filterName) {
-      filterExtraBy = "";
+      filterExtraBy = '';
+    } else if (filterSubjectBy == filterName) {
+      filterSubjectBy = '';
     }
 
     applyFilter();
@@ -131,6 +175,7 @@ class ClassListFilter with ChangeNotifier{
   void resetFilter() {
     filterCoreBy = '';
     filterExtraBy = '';
+    filterSubjectBy = '';
     notifyListeners();
   }
 

@@ -12,7 +12,7 @@ class FilterDialog extends StatelessWidget {
 
     return Dialog(
       child: Container(
-        height: 350,
+        height: 420,
         child: Column(
           children: <Widget>[
             Container(
@@ -28,6 +28,8 @@ class FilterDialog extends StatelessWidget {
                 ),
               ),
             ),
+            _buildHeader('Subject'),
+            _buildDropDownButton(kSubjects, 'subject'),
             _buildHeader('Core'),
             _buildDropDownButton(kCores, 'core'),
             _buildHeader('Extra'),
