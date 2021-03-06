@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 import '../Logger.dart';
 import 'Class.dart';
@@ -14,27 +15,42 @@ class ClassList with ChangeNotifier {
   Map<String, List<Class>> _classesByTitle = Map<String, List<Class>>();
   List<String> _subjects = [];
 
+  ClassList({classes}) {
+    // for unit test
+    if (classes != null) {
+      _allClasses = classes;
+      init();
+    }
+  }
+
   fetchClasses() async {
     Logger.LogDetailed('ClassList.dart', 'fetchClasses', 'start fetching');
 
-    final String url = "https://wsucoursehelper.s3.amazonaws.com/current-semester.json";
-    final response = await http.get(url);
+    final String url =
+        "https://wsucoursehelper.s3.amazonaws.com/current-semester.json";
+    final Response response = await http.get(url);
 
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       Iterable l = json.decode(response.body);
-      List<Class> classes = List<Class>.from(l.map((model) => Class.fromJson(model)));
+      List<Class> classes =
+          List<Class>.from(l.map((model) => Class.fromJson(model)));
       _allClasses = classes;
-      setClassesBySubject();
-      setClassesByTitle();
-      setSubjectsList();
+      init();
       notifyListeners();
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception('Failed to load json file from $url');
     }
+  }
+
+  init() {
+    assert(_allClasses != null);
+    setClassesBySubject();
+    setClassesByTitle();
+    setSubjectsList();
   }
 
   List<Class> get allClasses => _allClasses;
@@ -44,7 +60,7 @@ class ClassList with ChangeNotifier {
   Map<String, List<Class>> get classByTitle => _classesByTitle;
 
   List<String> get subjects => _subjects;
-  
+
   void setSubjectsList() {
     for (String subject in _classesBySubject.keys) {
       if (subject == null || subject.length == 0 || subject == 'Lab') {

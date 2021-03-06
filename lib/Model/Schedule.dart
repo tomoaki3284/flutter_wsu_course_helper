@@ -16,7 +16,10 @@ class Schedule with ChangeNotifier {
 
   Schedule({List<Class> classes, @required String name}) {
     if (classes != null) {
-      _classes = classes;
+      _classes = new List<Class>();
+      for (Class course in classes) {
+        _classes.add(course);
+      }
     }
     _name = name;
     setTotalCredit();

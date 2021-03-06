@@ -76,7 +76,27 @@ class Class {
     );
   }
 
-  String getCoresString () {
+  /// return number [1,2,3,...] or 'L'
+  /// return 'L' if class is lab && can bind with any class that has same subject
+  String getSectionNumber() {
+    List<String> crnArr = courseCRN.split(' ');
+    if (isLab) {
+      // sectionNumberChunk looks like "0LA12477", "01A12477", "02A12477"
+      // I want "L", "1", "2", since these are the section number
+      String sectionNumberChunk = crnArr[crnArr.length - 1];
+      String sectionNumber = sectionNumberChunk.substring(1, 2);
+      return sectionNumber;
+    } else {
+      // sectionNumberChunk looks like "0128-002"
+      // I want last character "2", since this is the section number
+      String sectionNumberChunk = crnArr[2];
+      String sectionNumber = sectionNumberChunk.substring(
+          sectionNumberChunk.length - 1, sectionNumberChunk.length);
+      return sectionNumber;
+    }
+  }
+
+  String getCoresString() {
     if (cores.length == 0) {
       return '';
     } else if (cores.length == 1) {
