@@ -108,22 +108,23 @@ class AutoScheduler {
     assert(allClasses != null && allClasses.length != 0);
     assert(labBindMap != null);
 
-    // todo: gotta consider section # maybe?
-    String prevSubject = allClasses[0].subject;
+    labBindMap = {};
+
+    String prevTitle = allClasses[0].title;
     for (int i = 1; i < allClasses.length; i++) {
       Class course = allClasses[i];
-      String currSubject = course.subject;
+      String currTitle = course.title;
       if (course.isLab) {
         // if curr course is lab, then prev subject classes require lab class
-        if (labBindMap.containsKey(prevSubject)) {
+        if (labBindMap.containsKey(prevTitle)) {
           // so add the lab course in list
-          labBindMap[prevSubject].add(course);
+          labBindMap[prevTitle].add(course);
         } else {
-          labBindMap[prevSubject] = [course];
+          labBindMap[prevTitle] = [course];
         }
       } else {
         // if curr course is not lab, then do normal process
-        prevSubject = currSubject;
+        prevTitle = currTitle;
       }
     }
   }
@@ -168,7 +169,7 @@ class AutoScheduler {
     }
 
     assert(labIdxByClassTitle[classTitle] != null);
-    classesList[labIdxByClassTitle[classTitle]] = (correctLabClasses);
+    classesList[labIdxByClassTitle[classTitle]] = correctLabClasses;
   }
 
   void backtrack(int idx, Schedule aSchedule, int desireScheduleSize,

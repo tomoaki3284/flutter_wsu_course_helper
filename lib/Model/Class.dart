@@ -89,7 +89,7 @@ class Class {
     } else {
       // sectionNumberChunk looks like "0128-002"
       // I want last character "2", since this is the section number
-      String sectionNumberChunk = crnArr[2];
+      String sectionNumberChunk = crnArr[1];
       String sectionNumber = sectionNumberChunk.substring(
           sectionNumberChunk.length - 1, sectionNumberChunk.length);
       return sectionNumber;
