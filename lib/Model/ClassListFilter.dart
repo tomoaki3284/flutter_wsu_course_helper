@@ -123,7 +123,9 @@ class ClassListFilter with ChangeNotifier {
   }
 
   List<String> getFilterComponents() {
-    if (filterCoreBy.length == 0 && filterExtraBy.length == 0) {
+    if (filterCoreBy.length == 0 &&
+        filterExtraBy.length == 0 &&
+        filterSubjectBy.length == 0) {
       return [];
     }
 
