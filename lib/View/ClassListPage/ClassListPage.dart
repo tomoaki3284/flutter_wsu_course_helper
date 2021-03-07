@@ -25,7 +25,7 @@ class ClassListPage extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxScrolled) {
           return <Widget>[
-            _buildTopSliverAppBar(),
+            // _buildTopSliverAppBar(),
             _buildBottomSliverAppBar(classListFilter, context),
             _buildChipBar(classListFilter),
           ];
@@ -68,10 +68,10 @@ class ClassListPage extends StatelessWidget {
   SliverAppBar _buildBottomSliverAppBar(
       ClassListFilter classListFilter, BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var searchBarWidth = size.width * 0.80;
+    var searchBarWidth = size.width * 0.65;
 
     return SliverAppBar(
-      automaticallyImplyLeading: false,
+      // automaticallyImplyLeading: false,
       pinned: true,
       title: SizedBox(
         width: size.width,
@@ -142,6 +142,10 @@ class ClassListPage extends StatelessWidget {
   Widget _buildChipBar(ClassListFilter classListFilter) {
     return SliverAppBar(
       automaticallyImplyLeading: false,
+      pinned: true,
+      floating: classListFilter
+          .getFilterComponents()
+          .length < 1,
       title: _buildFilterChips(classListFilter),
     );
   }
