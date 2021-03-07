@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wsu_course_helper/View/AutoSchedulerPage/AutoSchedulerListPage.dart';
 
 import '../../constants.dart';
 
@@ -45,40 +46,54 @@ class FeaturesBlock extends StatelessWidget {
   }
 
   Widget _buildFeatureCell(BuildContext context, int index) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 5),
-            height: 70,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(1, 2),
-                ),
-              ],
+    return GestureDetector(
+      onTap: () {
+        var jumpTo;
+        if (features[index].name == 'scheduler') {
+          jumpTo = AutoSchedulerListPage();
+        } else {
+          jumpTo = Scaffold();
+        }
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => jumpTo),
+        );
+      },
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(bottom: 5),
+              height: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: Offset(1, 2),
+                  ),
+                ],
+              ),
+              child: Image(
+                image: AssetImage(features[index].imgPath),
+              ),
             ),
-            child: Image(
-              image: AssetImage(features[index].imgPath),
+            Text(
+              features[index].name,
+              maxLines: 1,
+              style: TextStyle(
+                letterSpacing: -0.5,
+                fontSize: 14,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          Text(
-            features[index].name,
-            maxLines: 1,
-            style: TextStyle(
-              letterSpacing: -0.5,
-              fontSize: 14,
-              color: Colors.black54,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -39,7 +39,7 @@ class ClassListTile extends StatelessWidget {
               child: Image.asset(imagePath),
             ),
           ),
-          Flexible(
+          Expanded(
             flex: 7,
             child: Container(
               padding: EdgeInsets.only(left: 5),

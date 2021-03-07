@@ -1,19 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 
 import '../Logger.dart';
 import 'Class.dart';
 
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 class ClassList with ChangeNotifier {
-
   List<Class> _allClasses;
   Map<String, List<Class>> _classesBySubject = Map<String, List<Class>>();
   Map<String, List<Class>> _classesByTitle = Map<String, List<Class>>();
   List<String> _subjects = [];
+
+  Set<Class> uniqueTitleClasses = {};
 
   ClassList({classes}) {
     // for unit test
@@ -35,7 +36,7 @@ class ClassList with ChangeNotifier {
       // then parse the JSON.
       Iterable l = json.decode(response.body);
       List<Class> classes =
-          List<Class>.from(l.map((model) => Class.fromJson(model)));
+      List<Class>.from(l.map((model) => Class.fromJson(model)));
       _allClasses = classes;
       init();
       notifyListeners();
@@ -51,6 +52,7 @@ class ClassList with ChangeNotifier {
     setClassesBySubject();
     setClassesByTitle();
     setSubjectsList();
+    setUniqueTitleClasses();
   }
 
   List<Class> get allClasses => _allClasses;
@@ -75,7 +77,7 @@ class ClassList with ChangeNotifier {
     _subjects.insert(0, 'All');
   }
 
-  void setClassesBySubject () {
+  void setClassesBySubject() {
     // for all classes list
     _classesBySubject['All'] = _allClasses;
 
@@ -88,13 +90,26 @@ class ClassList with ChangeNotifier {
     }
   }
 
-  void setClassesByTitle () {
+  void setClassesByTitle() {
     for (var course in _allClasses) {
       if (_classesByTitle.containsKey(course.title)) {
         _classesByTitle[course.title].add(course);
       } else {
         _classesByTitle[course.title] = [course];
       }
+    }
+  }
+
+  void setUniqueTitleClasses() {
+    // exclude lab class from this, since auto lab-binding is on by default in auto-scheduler
+    Set<String> titleSeen = Set<String>();
+    for (Class course in allClasses) {
+      if (titleSeen.contains(course.title) || course.isLab) {
+        continue;
+      } else {
+        uniqueTitleClasses.add(course);
+      }
+      titleSeen.add(course.title);
     }
   }
 }
