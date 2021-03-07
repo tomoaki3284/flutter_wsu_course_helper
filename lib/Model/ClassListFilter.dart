@@ -15,11 +15,17 @@ class ClassListFilter with ChangeNotifier {
   List<Class> filteredClasses;
 
   void init(List<Class> classes) {
-    // because it is init, unfilteredClasses == filteredClass, I mean it doesn't matter
     unfilteredClasses = classes;
-    filteredClasses = classes;
+
+    filteredClasses = [];
+    for (Class course in unfilteredClasses) {
+      filteredClasses.add(course);
+    }
+
     filterCoreBy = "";
     filterExtraBy = "";
+    filterSubjectBy = "";
+    filterTitleBy = "";
   }
 
   void applyTitleFilter(String filterTitleBy) {
@@ -52,8 +58,6 @@ class ClassListFilter with ChangeNotifier {
     _filterSubject(filteredSet, {});
     // then filter by title
     _filterTitle(filteredSet, {});
-
-    print('finish');
 
     filteredClasses = filteredSet.toList();
     notifyListeners();

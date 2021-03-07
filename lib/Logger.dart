@@ -1,7 +1,7 @@
 class Logger {
 
   static void LogDetailed (String className, String method, String message) {
-    print("-----------> $className :: $method >> $message <-----------");
+    print("-----------> $className :: $method >> $message");
   }
 
   static void LogException (var ex) {

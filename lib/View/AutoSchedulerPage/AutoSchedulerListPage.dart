@@ -1,52 +1,76 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:wsu_course_helper/Logger.dart';
 import 'package:wsu_course_helper/Model/AutoScheduler.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/View/ClassListPage/FilterDialog.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 // ignore: must_be_immutable
 class AutoSchedulerListPage extends StatelessWidget {
   AutoScheduler autoScheduler;
   ClassList classList;
+  ClassListFilter classListFilter;
 
   @override
   Widget build(BuildContext context) {
+    Logger.LogDetailed(
+        'AutoSchedulerListPage.dart', 'build', 'building entire widget');
+
     classList = Provider.of<ClassList>(context, listen: false);
     autoScheduler = new AutoScheduler(allClasses: classList.allClasses);
 
+    // don't listen here
+    classListFilter = Provider.of<ClassListFilter>(context, listen: false);
+    classListFilter.init(classList.uniqueTitleClasses.toList());
+
     assert(classList != null);
     assert(autoScheduler != null);
+    assert(classListFilter != null);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Select Consideration'),
+        actions: [
+          IconButton(
+            icon: Image.asset('assets/images/filter.png'),
+            onPressed: () {
+              classListFilter.resetFilter();
+              _showDialog(context);
+            },
+          ),
+        ],
       ),
-      body: SafeArea(
-        child: body(context),
+      body: body(),
+    );
+  }
+
+  Widget body() {
+    return Consumer<ClassListFilter>(
+      builder: (context, classListFilter, _) => Container(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                itemCount: classListFilter.filteredClasses.length,
+                itemBuilder: (context, index) {
+                  return _buildClassRow(index, classListFilter.filteredClasses);
+                },
+              ),
+            ),
+            _buildComputeButton(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget body(BuildContext context) {
-    Set<Class> classSet = classList.uniqueTitleClasses;
-
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              itemCount: classSet.length,
-              itemBuilder: (context, index) {
-                return _buildClassRow(index, classSet);
-              },
-            ),
-          ),
-          _buildComputeButton(),
-        ],
-      ),
-    );
+  void _showDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => FilterDialog());
   }
 
   Widget _buildComputeButton() {
@@ -73,14 +97,14 @@ class AutoSchedulerListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildClassRow(int index, Set<Class> classSet) {
-    Class course = classSet.elementAt(index);
+  Widget _buildClassRow(int index, List<Class> classes) {
+    Class course = classes[index];
     String imagePath =
         kImageBySubject[course.subject] ?? 'assets/images/BOOK.png';
 
     return GestureDetector(
       onTap: () {
-        autoScheduler.titleOfClassesConsideration.add(course.title);
+        // autoScheduler.titleOfClassesConsideration.add(course.title);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),

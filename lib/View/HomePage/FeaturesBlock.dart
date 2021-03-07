@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wsu_course_helper/Model/ClassList.dart';
+import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/View/AutoSchedulerPage/AutoSchedulerListPage.dart';
+import 'package:wsu_course_helper/View/ClassListPage/ClassListPage.dart';
 
 import '../../constants.dart';
 
