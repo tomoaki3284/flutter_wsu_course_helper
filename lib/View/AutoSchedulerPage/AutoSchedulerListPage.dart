@@ -33,11 +33,42 @@ class AutoSchedulerListPage extends StatelessWidget {
     Set<Class> classSet = classList.uniqueTitleClasses;
 
     return Container(
-      child: ListView.builder(
-        itemCount: classSet.length,
-        itemBuilder: (context, index) {
-          return _buildClassRow(index, classSet);
-        },
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: classSet.length,
+              itemBuilder: (context, index) {
+                return _buildClassRow(index, classSet);
+              },
+            ),
+          ),
+          _buildComputeButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildComputeButton() {
+    return Container(
+      child: ButtonBar(
+        alignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          ElevatedButton.icon(
+            onPressed: () {
+              // todo: compute and navigate to options
+            },
+            icon: Image.asset('assets/images/puzzle.png'),
+            label: Text('build schedule'),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              // todo: show list in bottom page
+            },
+            icon: Image.asset('assets/images/list.png'),
+            label: Text('your selection'),
+          )
+        ],
       ),
     );
   }
