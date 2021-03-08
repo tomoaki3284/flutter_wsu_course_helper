@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wsu_course_helper/Model/AutoScheduler.dart';
+import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/View/SchedulePage/SchedulePage.dart';
 import 'package:wsu_course_helper/constants.dart';
@@ -48,6 +49,7 @@ class OptionsPage extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => SchedulePage(
                   schedule: autoScheduler.options[index],
+                  mode: Mode.NOT_EDITABLE,
                 ),
               ),
             );

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
+import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/WidgetUtils.dart';
 import 'package:wsu_course_helper/constants.dart';
@@ -10,8 +11,9 @@ import 'CreateNewScheduleDialog.dart';
 
 class ClassDetailPage extends StatelessWidget {
   final Class course;
+  final Mode mode;
 
-  ClassDetailPage({@required this.course});
+  ClassDetailPage({@required this.course, @required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,20 @@ class ClassDetailPage extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    // - 0.5 at the end for padding vertical on the parent. if not, 1 pixel overflow
-    var classBlockHeight = size.height * 0.95;
+    var classBlockHeight;
+    if (mode == Mode.EDITABLE) {
+      classBlockHeight = size.height * 0.95;
+    } else {
+      classBlockHeight = size.height;
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _buildClassDetailBlock(context, classBlockHeight),
-        _buildScheduleDropdownBlock(context),
+        mode == Mode.EDITABLE
+            ? _buildScheduleDropdownBlock(context)
+            : Container(),
       ],
     );
   }
@@ -70,7 +78,9 @@ class ClassDetailPage extends StatelessWidget {
           _buildClassTileBlock(classTileBlockHeight),
           _buildClassTimeBlock(classTimeBlockHeight),
           _buildDescriptionBlock(classDescriptionBlockHeight),
-          _buttonsBlock(context, buttonsHeight),
+          mode == Mode.EDITABLE
+              ? _buttonsBlock(context, buttonsHeight)
+              : Container(),
         ],
       ),
     );

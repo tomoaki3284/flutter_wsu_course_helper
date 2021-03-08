@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
 import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/constants.dart';
@@ -39,7 +40,11 @@ class ClassListPage extends StatelessWidget {
               Class course = classListFilter.filteredClasses[index];
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ClassDetailPage(course: course)),
+                MaterialPageRoute(
+                    builder: (context) => ClassDetailPage(
+                          course: course,
+                          mode: Mode.EDITABLE,
+                        )),
               );
             },
             child: ClassListTile(course: classListFilter.filteredClasses[index]),

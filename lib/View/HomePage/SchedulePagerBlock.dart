@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/Model/User.dart';
@@ -67,7 +68,11 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SchedulePage(schedule: schedule,)),
+          MaterialPageRoute(
+              builder: (context) => SchedulePage(
+                    schedule: schedule,
+                    mode: Mode.EDITABLE,
+                  )),
         );
       },
       child: Container(

@@ -1,44 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
-import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
+import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/View/SharedView/ScheduledClassesHeader.dart';
 import 'package:wsu_course_helper/View/SharedView/WeeklyTimelineBlock.dart';
-import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/constants.dart';
 
-class SchedulePage extends StatefulWidget {
-  final Schedule schedule;
-  final Mode mode;
+class OptionSchedulePage extends StatelessWidget {
+  Schedule schedule;
 
-  SchedulePage({@required this.schedule, @required this.mode});
-
-  @override
-  _SchedulePageState createState() =>
-      _SchedulePageState(schedule: schedule, mode: mode);
-}
-
-class _SchedulePageState extends State<SchedulePage> {
-  final Schedule schedule;
-  final Mode mode;
-
-  _SchedulePageState({@required this.schedule, @required this.mode});
-
-  @override
-  void initState() {
-    assert(schedule != null);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  OptionSchedulePage({@required this.schedule});
 
   @override
   Widget build(BuildContext context) {
+    assert(schedule != null);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Schedule'),
@@ -60,8 +36,6 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Widget _buildClassesListView(BuildContext context) {
-    SchedulePool scheduleList = Provider.of<SchedulePool>(context);
-
     return Container(
       height: 400,
       child: ListView.builder(
@@ -69,14 +43,11 @@ class _SchedulePageState extends State<SchedulePage> {
         itemBuilder: (c, index) {
           return GestureDetector(
             onTap: () {
-              if (mode == Mode.EDITABLE) {
-                scheduleList.focusSchedule = schedule;
-              }
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ClassDetailPage(
-                      course: schedule.classes[index], mode: mode),
+                  builder: (context) =>
+                      ClassDetailPage(course: schedule.classes[index]),
                 ),
               );
             },
