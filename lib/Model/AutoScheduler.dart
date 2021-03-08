@@ -31,6 +31,18 @@ class AutoScheduler {
     initLabBindMap();
   }
 
+  /// add class to consideration
+  /// return false, if class is already in the list
+  /// return true, if there is no problem for adding it to consideration
+  bool addToConsideration(String classTitle) {
+    if (titleOfClassesConsideration.contains(classTitle)) {
+      return false;
+    }
+
+    titleOfClassesConsideration.add(classTitle);
+    return true;
+  }
+
   void startAutoSchedule() {
     /**
      * Way to implement lab auto binding:

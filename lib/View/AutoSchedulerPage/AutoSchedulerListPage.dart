@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:wsu_course_helper/Logger.dart';
 import 'package:wsu_course_helper/Model/AutoScheduler.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
@@ -58,7 +59,8 @@ class AutoSchedulerListPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: classListFilter.filteredClasses.length,
                 itemBuilder: (context, index) {
-                  return _buildClassRow(index, classListFilter.filteredClasses);
+                  return _buildClassRow(
+                      index, classListFilter.filteredClasses, context);
                 },
               ),
             ),
@@ -67,10 +69,6 @@ class AutoSchedulerListPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _showDialog(BuildContext context) {
-    showDialog(context: context, builder: (context) => FilterDialog());
   }
 
   Widget _buildComputeButton() {
@@ -97,14 +95,14 @@ class AutoSchedulerListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildClassRow(int index, List<Class> classes) {
+  Widget _buildClassRow(int index, List<Class> classes, BuildContext context) {
     Class course = classes[index];
     String imagePath =
         kImageBySubject[course.subject] ?? 'assets/images/BOOK.png';
 
     return GestureDetector(
       onTap: () {
-        // autoScheduler.titleOfClassesConsideration.add(course.title);
+        _showAddDialog(context, course.title);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -172,5 +170,66 @@ class AutoSchedulerListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(context: context, builder: (context) => FilterDialog());
+  }
+
+  void _showAddDialog(BuildContext context, String classTitle) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Add'),
+        content: RichText(
+          text: TextSpan(
+            style: TextStyle(
+              color: Colors.black,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Do you want to add\n\n',
+              ),
+              TextSpan(
+                text: '\"$classTitle\"',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: '\n\ninto selection?',
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              bool success = autoScheduler.addToConsideration(classTitle);
+              if (!success) {
+                showToast('You already added this class', 2, context);
+              }
+              goBackScreen(context);
+            },
+            child: Text('Yes'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              goBackScreen(context);
+            },
+            child: Text('No'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void goBackScreen(BuildContext context) {
+    return Navigator.of(context).pop(true);
+  }
+
+  void showToast(String msg, int duration, BuildContext context) {
+    Toast.show(msg, context, duration: duration, gravity: Toast.BOTTOM);
   }
 }
