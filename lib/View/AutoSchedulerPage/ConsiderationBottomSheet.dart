@@ -28,7 +28,7 @@ class _ConsiderationBottomSheetState extends State<ConsiderationBottomSheet> {
     return Column(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
+          margin: EdgeInsets.symmetric(vertical: 15),
           child: Text(
             'Consideration List',
             style: TextStyle(

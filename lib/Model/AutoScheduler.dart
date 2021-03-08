@@ -43,6 +43,13 @@ class AutoScheduler {
     return true;
   }
 
+  void reset() {
+    options = [];
+    classesList = [];
+    numOfLabClass = 0;
+    labRequire = false;
+  }
+
   void startAutoSchedule() {
     /**
      * Way to implement lab auto binding:
@@ -59,6 +66,13 @@ class AutoScheduler {
 
     Logger.LogDetailed(
         'AutoScheduler.dart', 'startAutoSchedule', 'method called');
+
+    // no options should be generated
+    if (titleOfClassesConsideration.length == 0) {
+      return;
+    }
+
+    reset();
 
     findAllClassesFromAbstract();
 

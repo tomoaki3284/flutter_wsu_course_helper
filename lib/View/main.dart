@@ -10,14 +10,15 @@ import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/constants.dart';
 import 'dart:convert';
 
-import 'Logger.dart';
-import 'Model/Class.dart';
-import 'Model/Schedule.dart';
-import 'Model/User.dart';
-import 'View/HomePage/HomePage.dart';
+import '../Logger.dart';
+import '../Model/Class.dart';
+import '../Model/Schedule.dart';
+import '../Model/User.dart';
+import 'HomePage/HomePage.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // this line is needed to use async/await in main()
+  WidgetsFlutterBinding
+      .ensureInitialized(); // this line is needed to use async/await in main()
 
   await InternalStorage.init();
   final String sharedPrefUserKey = 'user';

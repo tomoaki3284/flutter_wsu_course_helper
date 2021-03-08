@@ -10,6 +10,7 @@ import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/View/AutoSchedulerPage/ConsiderationBottomSheet.dart';
 import 'package:wsu_course_helper/View/ClassListPage/FilterDialog.dart';
+import 'package:wsu_course_helper/View/OptionsPage/OptionsPage.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 // ignore: must_be_immutable
@@ -80,6 +81,13 @@ class AutoSchedulerListPage extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () {
               // todo: compute and navigate to options
+              autoScheduler.startAutoSchedule();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        OptionsPage(autoScheduler: autoScheduler)),
+              );
             },
             icon: Image.asset('assets/images/puzzle.png'),
             label: Text('build schedule'),
@@ -228,9 +236,11 @@ class AutoSchedulerListPage extends StatelessWidget {
   }
 
   void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(context: context, builder: (context) {
-      return ConsiderationBottomSheet(autoScheduler: autoScheduler);
-    });
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return ConsiderationBottomSheet(autoScheduler: autoScheduler);
+        });
   }
 
   void goBackScreen(BuildContext context) {
