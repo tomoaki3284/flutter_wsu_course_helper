@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
-import 'package:wsu_course_helper/View/SchedulePage/WeeklyTimelineBlock.dart';
+import 'package:wsu_course_helper/View/SharedView/ScheduledClassesHeader.dart';
+import 'package:wsu_course_helper/View/SharedView/WeeklyTimelineBlock.dart';
 import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -45,24 +46,10 @@ class _SchedulePageState extends State<SchedulePage> {
             // tab button, week timeline, classes list
             children: <Widget>[
               WeeklyTimelineBlock(schedule: schedule),
-              _buildHeader(),
+              ScheduledClassesHeader(),
               _buildClassesListView(context),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: EdgeInsets.only(top: 35, bottom: 35, left: 15, right: 15),
-      child: Text(
-        'Classes on your schedule',
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );

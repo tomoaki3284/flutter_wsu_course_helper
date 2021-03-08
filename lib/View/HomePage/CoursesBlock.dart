@@ -4,7 +4,7 @@ import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/View/ClassListPage/ClassListPage.dart';
-import 'package:wsu_course_helper/View/GeneralHeader.dart';
+import 'package:wsu_course_helper/View/SharedView/GeneralHeader.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class CoursesBlock extends StatelessWidget {
