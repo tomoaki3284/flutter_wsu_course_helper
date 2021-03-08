@@ -46,9 +46,10 @@ class OptionsPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => SchedulePage(
-                        schedule: autoScheduler.options[index],
-                      )),
+                builder: (context) => SchedulePage(
+                  schedule: autoScheduler.options[index],
+                ),
+              ),
             );
           },
           child: _buildOptionTile(index),
