@@ -8,6 +8,7 @@ import 'package:wsu_course_helper/Model/AutoScheduler.dart';
 import 'package:wsu_course_helper/Model/Class.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/View/AutoSchedulerPage/ConsiderationBottomSheet.dart';
 import 'package:wsu_course_helper/View/ClassListPage/FilterDialog.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -46,11 +47,11 @@ class AutoSchedulerListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: body(),
+      body: body(context),
     );
   }
 
-  Widget body() {
+  Widget body(BuildContext context) {
     return Consumer<ClassListFilter>(
       builder: (context, classListFilter, _) => Container(
         child: Column(
@@ -64,14 +65,14 @@ class AutoSchedulerListPage extends StatelessWidget {
                 },
               ),
             ),
-            _buildComputeButton(),
+            _buildComputeButton(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildComputeButton() {
+  Widget _buildComputeButton(BuildContext context) {
     return Container(
       child: ButtonBar(
         alignment: MainAxisAlignment.spaceAround,
@@ -86,6 +87,7 @@ class AutoSchedulerListPage extends StatelessWidget {
           ElevatedButton.icon(
             onPressed: () {
               // todo: show list in bottom page
+              _showBottomSheet(context);
             },
             icon: Image.asset('assets/images/list.png'),
             label: Text('your selection'),
@@ -223,6 +225,12 @@ class AutoSchedulerListPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(context: context, builder: (context) {
+      return ConsiderationBottomSheet(autoScheduler: autoScheduler);
+    });
   }
 
   void goBackScreen(BuildContext context) {
