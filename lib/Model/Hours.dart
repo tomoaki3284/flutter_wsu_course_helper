@@ -28,7 +28,7 @@ class Hours {
   /// @return the interval form of int[] {startHour*60 + startMin, endHour*60 + endMin}
   /// which is equivalent of int[] {starting hour in minute, ending hour in minute}
   List<int> getInIntervalForm() {
-    List<int> result = new List();
+    List<int> result = [];
     result.add(startHour * 60 + startMinute);
     result.add(endHour * 60 + endMinute);
     return result;
@@ -51,8 +51,11 @@ class Hours {
     if (endHour - startHour == 0) {
       return endMinute - startMinute + 0.0;
     } else {
-      int gap = 60 - startMinute;
-      return endMinute + gap + 0.0;
+      if (startMinute > endMinute) {
+        int gap = 60 - startMinute;
+        return endMinute + gap + 0.0;
+      }
+      return endMinute - startMinute + 0.0;
     }
   }
 

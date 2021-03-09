@@ -17,6 +17,8 @@ class ClassDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert(mode != null);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Class Detail'),

@@ -115,7 +115,7 @@ class ScheduleTimeLineBlock extends StatelessWidget {
     int classStartMinute = hours == null ? 0 : hours.startMinute;
 
     // posY for placing time cell in correct position, posY = gap height from top
-    // + 10.0 is for offset with timeline text. timeline text is not perfectly aligned
+    // + 14.0 is for offset with timeline text. timeline text is not perfectly aligned
     // to the top left. It has offset of textHeight
     double posY = hours == null
         ? 0
