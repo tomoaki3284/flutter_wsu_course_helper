@@ -78,8 +78,27 @@ class SchedulePool with ChangeNotifier{
     return true;
   }
 
-  bool removeTargetSchedule (String scheduleName) {
-    Logger.LogDetailed('SchedulePool.dart', 'removeTargetSchedule', 'method called');
+  /// SchedulePool doesn't allow to add new schedule that has same name
+  /// as existing schedule.
+  /// (This is because of duplication of Map key, and simply confusing for user)
+  /// If new schedule name already exist, return false and don't make/add new
+  /// schedule to the SchedulePool
+  bool directlyAddSchedule(Schedule schedule) {
+    String name = schedule.name;
+    if (name == null || name.length == 0 || _scheduleByName.containsKey(name)) {
+      // new name already exist in schedulePool, so return false
+      return false;
+    }
+
+    _scheduleByName[name] = schedule;
+
+    notifyListeners();
+    return true;
+  }
+
+  bool removeTargetSchedule(String scheduleName) {
+    Logger.LogDetailed(
+        'SchedulePool.dart', 'removeTargetSchedule', 'method called');
 
     // Shouldn't go into this if clause
     if (!_scheduleByName.containsKey(scheduleByName)) {

@@ -4,9 +4,10 @@ import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
+import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
 import 'package:wsu_course_helper/View/SharedView/ScheduledClassesHeader.dart';
 import 'package:wsu_course_helper/View/SharedView/WeeklyTimelineBlock.dart';
-import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
+import 'package:wsu_course_helper/WidgetUtils.dart';
 import 'package:wsu_course_helper/constants.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -39,9 +40,32 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    SchedulePool schedulePool =
+        Provider.of<SchedulePool>(context, listen: false);
+
+    Widget actionAdd = Container();
+    if (mode == Mode.NOT_EDITABLE) {
+      // it means this schedule is not created by user, so make it addable
+      actionAdd = GestureDetector(
+        onTap: () {
+          bool valid = schedulePool.directlyAddSchedule(schedule);
+          if (valid) {
+            WidgetUtils.showToast('added to your schedules', 2, context);
+          } else {
+            WidgetUtils.showToast(
+                'conflict: same schedule name exist', 2, context);
+          }
+        },
+        child: Image.asset('assets/images/plus.png'),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Schedule'),
+        actions: [
+          actionAdd,
+        ],
       ),
       backgroundColor: kBackgroundColor,
       body: SafeArea(

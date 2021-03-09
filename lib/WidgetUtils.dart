@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class WidgetUtils {
 
@@ -26,5 +27,9 @@ class WidgetUtils {
         ),
       ),
     );
+  }
+
+  static void showToast(String msg, int duration, BuildContext context) {
+    Toast.show(msg, context, duration: duration, gravity: Toast.BOTTOM);
   }
 }
