@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
-import 'package:wsu_course_helper/Model/SchedulePool.dart';
 import 'package:wsu_course_helper/constants.dart';
-import 'dart:convert';
 
 import '../Logger.dart';
-import '../Model/Class.dart';
-import '../Model/Schedule.dart';
 import '../Model/User.dart';
 import 'HomePage/HomePage.dart';
 
