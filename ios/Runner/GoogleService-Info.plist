@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>807499178702-3iar2ujepfqq8hnnmrr9r4o13o9p91qf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.807499178702-3iar2ujepfqq8hnnmrr9r4o13o9p91qf</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAL9zmNOw0LdIgOuyXOrcQqH2PJGFeM2T4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>807499178702</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.tomoaki3284.wsuCourseHelper</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-wsu-course-helper</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-wsu-course-helper.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:807499178702:ios:1d266c9aceb70ecb51e69f</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-wsu-course-helper-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

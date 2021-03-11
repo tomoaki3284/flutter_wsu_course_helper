@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -14,6 +15,8 @@ void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // this line is needed to use async/await in main()
 
+  await Firebase.initializeApp();
+
   await InternalStorage.init();
   final String sharedPrefUserKey = 'user';
 
@@ -21,8 +24,10 @@ void main() async {
   Future<User> loadSharedPreferences() async {
     try {
       var json = await InternalStorage.read(sharedPrefUserKey);
+      print(json.runtimeType);
       User user = User.fromJson(json);
-      Logger.LogDetailed('main', 'loadSharedPreferences', 'Successfully read user object from pref');
+      Logger.LogDetailed('main', 'loadSharedPreferences',
+          'Successfully read user object from pref');
       // user.schedulePool.addSchedule('schedule 1');
       // user.schedulePool.addSchedule('schedule 2');
       // user.schedulePool.addSchedule('schedule 3');
@@ -41,15 +46,15 @@ void main() async {
   final User user = await loadSharedPreferences();
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => ClassList()),
-        ChangeNotifierProvider(create: (context) => user),
-        ChangeNotifierProvider(create: (context) => user.schedulePool),
-        ChangeNotifierProvider(create: (context) => ClassListFilter()),
-      ],
-      child: MyApp(),
-    )
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ClassList()),
+          ChangeNotifierProvider(create: (context) => user),
+          ChangeNotifierProvider(create: (context) => user.schedulePool),
+          ChangeNotifierProvider(create: (context) => ClassListFilter()),
+        ],
+        child: MyApp(),
+      )
   );
 }
 
@@ -60,15 +65,15 @@ class MyApp extends StatelessWidget {
     final user = Provider.of<User>(context, listen: false);
 
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: kPrimaryColor,
-          accentColor: Color(0xFFD8ECF1),
-          scaffoldBackgroundColor: kBackgroundColor,
-          textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
-        ),
-        home: HomePage(),
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        accentColor: Color(0xFFD8ECF1),
+        scaffoldBackgroundColor: kBackgroundColor,
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+      ),
+      home: HomePage(),
     );
   }
 }
