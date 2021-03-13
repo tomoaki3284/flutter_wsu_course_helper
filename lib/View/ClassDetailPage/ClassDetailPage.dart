@@ -273,8 +273,7 @@ class ClassDetailPage extends StatelessWidget {
   }
 
   Widget _buttonsBlock(BuildContext context, double height) {
-    SchedulePool scheduleList =
-        Provider.of<SchedulePool>(context, listen: false);
+    SchedulePool scheduleList = Provider.of<SchedulePool>(context);
     bool haveClass = scheduleList.focusedSchedule.haveClass(course);
 
     return Container(

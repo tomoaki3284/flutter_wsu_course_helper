@@ -50,7 +50,7 @@ class Database {
     if (firebaseUser != null) {
       // save user info to database
       AppUser result;
-      usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
+      await usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap) {
         if (snap.value != null) {
           result = AppUser.fromDatabase(snap.value);
         } else {
@@ -91,8 +91,11 @@ class Database {
       AppUser user = await _loginByUserUid(firebaseUser.uid);
       Logger.LogDetailed(
           'Database', 'checkoutCurrentUser()', 'we have current user = $user');
+      // _firebaseAuth.signOut();
       return user;
     } else {
+      Logger.LogDetailed(
+          'Database', 'checkoutCurrentUser()', 'no current session user');
       return null;
     }
   }
@@ -100,7 +103,7 @@ class Database {
   Future<String> _getUidByAppUser(AppUser appUser) async {
     Logger.LogDetailed('Database', '_getUidByUser()', 'method called');
     final UserCredential uc = (await _firebaseAuth
-        .createUserWithEmailAndPassword(
+        .signInWithEmailAndPassword(
       email: appUser.email,
       password: appUser.password,
     )
@@ -113,11 +116,15 @@ class Database {
 
   void updateUser(AppUser user) async {
     Logger.LogDetailed('Database', 'updateUser()', 'method called');
+    if (user == null || user.email.length == 0) {
+      Logger.LogDetailed('Database', 'updateUser()', 'but do not update');
+      return;
+    }
     String uid = await _getUidByAppUser(user);
     assert(uid != null);
     // update user info
     if (uid != null) {
-      usersRef.child(uid).update(user.getAppUserDataMap());
+      usersRef.child(uid).set(user.getAppUserDataMap());
     }
   }
 }

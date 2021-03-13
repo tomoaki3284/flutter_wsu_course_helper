@@ -2,7 +2,6 @@ class Hours {
 
   final int startHour, startMinute, endHour, endMinute;
   String militaryTime;
-  String hoursString;
 
   Hours({this.startHour, this.startMinute, this.endHour, this.endMinute});
 
@@ -15,13 +14,30 @@ class Hours {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {
+  factory Hours.fromDatabase(Map<dynamic, dynamic> data) {
+    return Hours(
+      startHour: data["startHours"],
+      startMinute: data["startMinute"],
+      endHour: data["endHours"],
+      endMinute: data["endMinute"],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
         'startHours': startHour,
         'startMinute': startMinute,
         'endHours': endHour,
         'endMinute': endMinute,
       };
+
+  Map<dynamic, dynamic> getDataMap() {
+    return {
+      'startHours': startHour,
+      'startMinute': startMinute,
+      'endHours': endHour,
+      'endMinute': endMinute,
+    };
+  }
 
   /// Get the interval from of open hours
   ///

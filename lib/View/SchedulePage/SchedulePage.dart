@@ -50,6 +50,7 @@ class _SchedulePageState extends State<SchedulePage> {
         onTap: () {
           bool valid = schedulePool.directlyAddSchedule(schedule);
           if (valid) {
+            schedulePool.directlyAddSchedule(schedule);
             WidgetUtils.showToast('added to your schedules', 2, context);
           } else {
             WidgetUtils.showToast(

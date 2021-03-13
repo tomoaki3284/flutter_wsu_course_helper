@@ -60,7 +60,6 @@ class Schedule with ChangeNotifier {
   Map<String, dynamic> toJson() => {
         '_classes': _classes,
         '_name': _name,
-        '_totalCredit': _totalCredit,
       };
 
   factory Schedule.fromJson(Map<String, dynamic> json) {
@@ -79,6 +78,41 @@ class Schedule with ChangeNotifier {
     return Schedule(
       classes: classes,
       name: json['_name'],
+    );
+  }
+
+  Map<dynamic, dynamic> getDataMap() {
+    List<dynamic> classes = [];
+    for (Class course in this.classes) {
+      classes.add(course.getDataMap());
+    }
+
+    return {
+      '_classes': classes,
+      '_name': _name,
+    };
+  }
+
+  factory Schedule.fromDatabase(Map<dynamic, dynamic> data) {
+    Logger.LogDetailed(
+        'Schedule.dart', 'Schedule.fromDatabase', 'method called');
+
+    var jsonLike = data['_classes'];
+    List<Class> classes = [];
+    if (jsonLike == null) {
+      classes = [];
+    } else {
+      classes = List<Class>.from(jsonLike.map((model) {
+        return Class.fromDatabase(model);
+      }));
+    }
+
+    assert(data['_name'] != null);
+    assert(classes != null);
+
+    return Schedule(
+      classes: classes,
+      name: data['_name'],
     );
   }
 
@@ -174,7 +208,12 @@ class Schedule with ChangeNotifier {
   }
 
   bool haveClass(Class course) {
-    return _classes.contains(course);
+    for (Class taken in _classes) {
+      if (taken.courseCRN == course.courseCRN) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // ChangeNotifier methods

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import 'package:wsu_course_helper/Backend/Database.dart';
+import 'package:wsu_course_helper/Logger.dart';
+import 'package:wsu_course_helper/Model/AppUser.dart';
+import 'package:wsu_course_helper/View/HomePage/HomePage.dart';
 import 'package:wsu_course_helper/View/SignupPage/SignupPage.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  // Database _database;
+  Database database = new Database();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void processInput(BuildContext context) {
+  void processInput(BuildContext context) async {
     String email = _emailController.text.toString();
     String password = _passwordController.text.toString();
 
@@ -82,7 +87,24 @@ class LoginPage extends StatelessWidget {
       return;
     }
 
-    // todo: use database to log in
+    try {
+      AppUser user = await database.loginAndAuthenticateUser(
+          email: email, password: password);
+      if (user != null) {
+        // use provider to change user, since user logged in
+        AppUser oldUser = Provider.of<AppUser>(context, listen: false);
+        oldUser.changeReference(user);
+
+        // now navigate after the user change
+        Route route = MaterialPageRoute(builder: (context) => HomePage());
+        Navigator.pushReplacement(context, route);
+      } else {
+        showToast('something wrong', 3, context);
+      }
+    } catch (err) {
+      Logger.LogException(err);
+      showToast('Couldn\'t log in', 3, context);
+    }
   }
 
   void showToast(String msg, int duration, BuildContext context) {

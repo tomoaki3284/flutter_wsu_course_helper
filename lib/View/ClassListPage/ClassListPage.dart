@@ -8,7 +8,6 @@ import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
 import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
-import 'package:wsu_course_helper/constants.dart';
 
 import 'FilterDialog.dart';
 
