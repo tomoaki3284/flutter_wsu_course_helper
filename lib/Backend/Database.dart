@@ -20,7 +20,6 @@ class Database {
     final User firebaseUser = uc.user;
 
     if (firebaseUser != null) {
-      // todo: something went wrong here, SchedulePool
       usersRef.child(firebaseUser.uid).set(user.getAppUserDataMap());
       return true;
     } else {

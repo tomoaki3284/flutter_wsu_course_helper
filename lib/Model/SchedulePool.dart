@@ -67,7 +67,6 @@ class SchedulePool with ChangeNotifier{
       Map<String, dynamic> jsonLike = Map<String, dynamic>.from(
           data['scheduleByName']);
 
-      print('jsonLike = $jsonLike');
       for (var key in jsonLike.keys) {
         if (jsonLike[key] == null) continue;
         Schedule schedule = Schedule.fromDatabase(

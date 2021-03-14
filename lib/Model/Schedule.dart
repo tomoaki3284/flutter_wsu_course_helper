@@ -16,7 +16,7 @@ class Schedule with ChangeNotifier {
 
   Schedule({List<Class> classes, @required String name}) {
     if (classes != null) {
-      _classes = new List<Class>();
+      _classes = [];
       for (Class course in classes) {
         _classes.add(course);
       }
