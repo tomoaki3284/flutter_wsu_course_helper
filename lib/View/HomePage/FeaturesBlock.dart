@@ -52,12 +52,12 @@ class FeaturesBlock extends StatelessWidget {
   Widget _buildFeatureCell(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        var jumpTo;
-        if (features[index].name == 'scheduler') {
-          jumpTo = AutoSchedulerListPage();
-        } else {
-          jumpTo = Scaffold();
-        }
+        var jumpTo = features[index].featureScreen;
+        // if (features[index].name == 'scheduler') {
+        //   jumpTo = AutoSchedulerListPage();
+        // } else {
+        //   jumpTo = Scaffold();
+        // }
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => jumpTo),

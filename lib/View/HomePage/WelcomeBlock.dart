@@ -78,7 +78,7 @@ class CustomShape extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    double height = size.height;
+    double height = size.height - 10;
     double width = size.width;
     path.lineTo(0, height - 50);
     path.quadraticBezierTo(width / 2, height, width, height - 50);

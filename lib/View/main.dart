@@ -5,6 +5,7 @@ import 'package:wsu_course_helper/Backend/Database.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
+import 'package:wsu_course_helper/View/HomePage/HomeScreen.dart';
 import 'package:wsu_course_helper/View/SignupPage/SignupPage.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: kBackgroundColor,
         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
       ),
-      home: user.email.length == 0 ? SignupPage() : HomePage(),
+      home: user.email.length == 0 ? SignupPage() : HomeScreen(),
     );
   }
 }
