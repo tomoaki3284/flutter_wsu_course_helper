@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/View/ClassDetailPage/ClassDetailPage.dart';
 import 'package:wsu_course_helper/View/SharedView/ClassListTile.dart';
@@ -46,8 +47,10 @@ class OptionSchedulePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      ClassDetailPage(course: schedule.classes[index]),
+                  builder: (context) => ClassDetailPage(
+                    course: schedule.classes[index],
+                    mode: Mode.NOT_EDITABLE,
+                  ),
                 ),
               );
             },

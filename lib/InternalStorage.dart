@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Logger.dart';
-import 'Model/User.dart';
+import 'Model/AppUser.dart';
 
 class InternalStorage {
 

@@ -37,27 +37,32 @@ class Class {
     'faculty': faculty,
     'room': room,
     'timeString': timeString,
-    'credit': credit,
-    'isLab': isLab,
-    'isCancelled': isCancelled,
-    'cores': cores,
-    'weeklyHours': weeklyHours,
-  };
+        'credit': credit,
+        'isLab': isLab,
+        'isCancelled': isCancelled,
+        'cores': cores,
+        'weeklyHours': weeklyHours,
+      };
 
   factory Class.fromJson(Map<String, dynamic> json) {
     List<dynamic> coresFromJson = json["cores"];
     List<String> coreList = new List<String>.from(coresFromJson);
 
-    Map<String, dynamic> weeklyHoursFromJson = json["hoursOfDay"];
-    Map<String, List<dynamic>> weeklyHoursFromJson2 = Map<String, List<dynamic>>.from(weeklyHoursFromJson);
-    Map<String, List<Hours>> weeklyHoursData = new Map<String, List<Hours>>();
-    for (var week in weeklyHoursFromJson2.keys) {
-      List<dynamic> hoursList = weeklyHoursFromJson2[week];
-      List<Hours> hours = new List<Hours>();
-      for (var hour in hoursList) {
-        hours.add(Hours.fromJson(hour));
+    Map<String, dynamic> weeklyHoursFromJson = json["weeklyHours"];
+
+    Map<String, List<Hours>> weeklyHoursData = {};
+    if (weeklyHoursFromJson != null) {
+      Map<String, List<dynamic>> weeklyHoursFromJson2 =
+          Map<String, List<dynamic>>.from(weeklyHoursFromJson);
+      weeklyHoursData = new Map<String, List<Hours>>();
+      for (var week in weeklyHoursFromJson2.keys) {
+        List<dynamic> hoursList = weeklyHoursFromJson2[week];
+        List<Hours> hours = [];
+        for (var hour in hoursList) {
+          hours.add(Hours.fromJson(hour));
+        }
+        weeklyHoursData[week] = hours;
       }
-      weeklyHoursData[week] = hours;
     }
 
     return Class(
@@ -74,6 +79,74 @@ class Class {
       timeString: json["timeContent"],
       isCancelled: json["isCancelled"],
     );
+  }
+
+  Map<dynamic, dynamic> getDataMap() {
+    Map<dynamic, List<Hours>> weeklyHours =
+        Map<dynamic, List<Hours>>.from(this.weeklyHours);
+    // List<Hours> to List<dynamic>
+    Map<dynamic, dynamic> res = {};
+    for (var dayOfWeek in weeklyHours.keys) {
+      List<dynamic> hours = [];
+      for (var hour in weeklyHours[dayOfWeek]) {
+        hours.add(hour.getDataMap());
+      }
+      res[dayOfWeek] = hours;
+    }
+
+    return {
+      'courseCRN': courseCRN,
+      'subject': subject,
+      'title': title,
+      'classDescription': classDescription,
+      'faculty': faculty,
+      'room': room,
+      'timeString': timeString,
+      'credit': credit,
+      'isLab': isLab,
+      'isCancelled': isCancelled,
+      'cores': cores,
+      'weeklyHours': res,
+    };
+  }
+
+  factory Class.fromDatabase(Map<dynamic, dynamic> data) {
+    List<dynamic> coresFromJson = data["cores"];
+    List<String> coreList = new List<String>.from(coresFromJson);
+
+    Map<String, List<Hours>> weeklyHoursData = {};
+    if (data["weeklyHours"] != null) {
+      Map<String, dynamic> weeklyHoursFromJson =
+          Map<String, dynamic>.from(data["weeklyHours"]);
+      Map<String, List<dynamic>> weeklyHoursFromJson2 =
+          Map<String, List<dynamic>>.from(weeklyHoursFromJson);
+      weeklyHoursData = {};
+      for (var week in weeklyHoursFromJson2.keys) {
+        List<dynamic> hoursList = weeklyHoursFromJson2[week];
+        List<Hours> hours = [];
+        for (var hour in hoursList) {
+          hours.add(Hours.fromDatabase(hour));
+        }
+        weeklyHoursData[week] = hours;
+      }
+    }
+
+    Class course = Class(
+      courseCRN: data["courseCRN"],
+      subject: data["subject"],
+      title: data["title"],
+      isLab: data["isLabCourse"],
+      classDescription: data["classDescription"],
+      faculty: data["faculty"],
+      room: data["room"],
+      credit: data["credit"] + 0.0,
+      cores: coreList,
+      weeklyHours: weeklyHoursData,
+      timeString: data["timeContent"],
+      isCancelled: data["isCancelled"],
+    );
+
+    return course;
   }
 
   /// return number [1,2,3,...] or 'L'

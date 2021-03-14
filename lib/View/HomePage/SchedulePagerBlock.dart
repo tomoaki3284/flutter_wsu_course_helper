@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Model/Mode.dart';
 import 'package:wsu_course_helper/Model/Schedule.dart';
 import 'package:wsu_course_helper/Model/SchedulePool.dart';
-import 'package:wsu_course_helper/Model/User.dart';
+import 'package:wsu_course_helper/Model/AppUser.dart';
 import 'package:wsu_course_helper/View/SchedulePage/SchedulePage.dart';
 import 'package:wsu_course_helper/constants.dart';
 
@@ -96,7 +96,7 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
 
   /// parameter schedule is nullable
   Widget _buildScheduleCellContent(Schedule schedule) {
-    User user = Provider.of<User>(context);
+    AppUser user = Provider.of<AppUser>(context);
 
     String scheduleName = "";
     String totalCredit = "";
@@ -104,6 +104,8 @@ class _SchedulePagerBlockState extends State<SchedulePagerBlock> {
       scheduleName = 'No Schedule';
       totalCredit = 'None';
     } else {
+      assert(schedule.name != null);
+      assert(schedule.totalCredit != null);
       scheduleName = schedule.name;
       totalCredit = schedule.totalCredit.toString();
     }
