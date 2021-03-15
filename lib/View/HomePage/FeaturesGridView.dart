@@ -64,32 +64,41 @@ class FeaturesGridView extends StatelessWidget {
   }
 
   Widget _buildFeatureCell(BuildContext context, Feature feature) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-            offset: Offset(3, 7),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Image(
-            image: AssetImage(feature.imgPath),
-          ),
-          Padding(padding: EdgeInsets.only(bottom: 10)),
-          Text(
-            feature.name,
-            style: TextStyle(color: Colors.black),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        var jumpTo = feature.featureScreen;
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => jumpTo),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(3, 7),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image(
+              image: AssetImage(feature.imgPath),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 10)),
+            Text(
+              feature.name,
+              style: TextStyle(color: Colors.black),
+            ),
+          ],
+        ),
       ),
     );
   }

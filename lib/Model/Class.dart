@@ -48,7 +48,7 @@ class Class {
     List<dynamic> coresFromJson = json["cores"];
     List<String> coreList = new List<String>.from(coresFromJson);
 
-    Map<String, dynamic> weeklyHoursFromJson = json["weeklyHours"];
+    Map<String, dynamic> weeklyHoursFromJson = json["hoursOfDay"];
 
     Map<String, List<Hours>> weeklyHoursData = {};
     if (weeklyHoursFromJson != null) {
