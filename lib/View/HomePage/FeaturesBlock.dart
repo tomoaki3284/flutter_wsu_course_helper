@@ -12,7 +12,7 @@ class FeaturesBlock extends StatelessWidget {
     Feature(
       name: 'scheduler',
       imgPath: kImgByFeatureName['scheduler'],
-      featureScreen: Scaffold(),
+      featureScreen: AutoSchedulerListPage(),
     ),
     Feature(
       name: 'prof-rate',

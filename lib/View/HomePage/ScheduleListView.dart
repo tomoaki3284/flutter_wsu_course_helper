@@ -62,6 +62,7 @@ class ScheduleListView extends StatelessWidget {
       },
       child: Container(
         height: 130,
+        margin: EdgeInsets.only(bottom: 15, right: 5, left: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           color: kPrimaryColor,

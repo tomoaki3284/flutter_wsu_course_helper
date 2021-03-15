@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wsu_course_helper/View/HomePage/CoursesGridView.dart';
+import 'package:wsu_course_helper/View/HomePage/FeaturesGridView.dart';
 import 'package:wsu_course_helper/View/HomePage/ScheduleListView.dart';
 
 class HomeCategoryTabs extends StatefulWidget {
@@ -96,7 +97,7 @@ class _HomeCategoryTabsState extends State<HomeCategoryTabs> {
         },
         children: <Widget>[
           CoursesGridView(),
-          Placeholder(),
+          FeaturesGridView(),
           ScheduleListView(),
           Placeholder(),
         ],
@@ -150,7 +151,7 @@ class TabButton extends StatelessWidget {
             color: Colors.transparent,
             decoration: TextDecoration.underline,
             decorationColor: tabColor,
-            decorationThickness: 1,
+            decorationThickness: 1.5,
           ),
         ),
       ),
