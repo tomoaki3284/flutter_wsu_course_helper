@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:wsu_course_helper/Backend/Database.dart';
 import 'package:wsu_course_helper/Model/AppUser.dart';
-import 'package:wsu_course_helper/View/HomePage/HomePage.dart';
+import 'package:wsu_course_helper/View/HomePage/HomeScreen.dart';
 import 'package:wsu_course_helper/View/LoginPage/LoginPage.dart';
 
 class SignupPage extends StatelessWidget {
@@ -77,7 +77,8 @@ class SignupPage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Route route = MaterialPageRoute(builder: (context) => HomePage());
+              Route route =
+                  MaterialPageRoute(builder: (context) => HomeScreen());
               Navigator.pushReplacement(context, route);
             },
             child: Text('continue as guest'),
@@ -110,7 +111,7 @@ class SignupPage extends StatelessWidget {
         oldUser.changeReference(newUser);
 
         // now navigate
-        Route route = MaterialPageRoute(builder: (context) => HomePage());
+        Route route = MaterialPageRoute(builder: (context) => HomeScreen());
         Navigator.pushReplacement(context, route);
       } else {
         showToast('something wrong', 3, context);

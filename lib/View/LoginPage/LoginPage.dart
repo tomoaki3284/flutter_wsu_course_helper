@@ -4,7 +4,7 @@ import 'package:toast/toast.dart';
 import 'package:wsu_course_helper/Backend/Database.dart';
 import 'package:wsu_course_helper/Logger.dart';
 import 'package:wsu_course_helper/Model/AppUser.dart';
-import 'package:wsu_course_helper/View/HomePage/HomePage.dart';
+import 'package:wsu_course_helper/View/HomePage/HomeScreen.dart';
 import 'package:wsu_course_helper/View/SignupPage/SignupPage.dart';
 
 class LoginPage extends StatelessWidget {
@@ -96,7 +96,7 @@ class LoginPage extends StatelessWidget {
         oldUser.changeReference(user);
 
         // now navigate after the user change
-        Route route = MaterialPageRoute(builder: (context) => HomePage());
+        Route route = MaterialPageRoute(builder: (context) => HomeScreen());
         Navigator.pushReplacement(context, route);
       } else {
         showToast('something wrong', 3, context);

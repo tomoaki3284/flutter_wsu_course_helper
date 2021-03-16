@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wsu_course_helper/Backend/Database.dart';
 import 'package:wsu_course_helper/InternalStorage.dart';
+import 'package:wsu_course_helper/Logger.dart';
+import 'package:wsu_course_helper/Model/AppUser.dart';
 import 'package:wsu_course_helper/Model/ClassList.dart';
 import 'package:wsu_course_helper/Model/ClassListFilter.dart';
 import 'package:wsu_course_helper/View/HomePage/HomeScreen.dart';
 import 'package:wsu_course_helper/View/SignupPage/SignupPage.dart';
 import 'package:wsu_course_helper/constants.dart';
-
-import '../Logger.dart';
-import '../Model/AppUser.dart';
-import 'HomePage/HomePage.dart';
 
 void main() async {
   WidgetsFlutterBinding

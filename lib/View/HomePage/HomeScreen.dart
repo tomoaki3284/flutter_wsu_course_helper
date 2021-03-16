@@ -38,11 +38,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<AppUser>(context, listen: false);
+
     return Scaffold(
       body: SafeArea(
         child: Container(
           child: Column(
             children: <Widget>[
+              // GestureDetector(
+              //   onTap: () {
+              //     if (user.email.length != 0) database.updateUser(user);
+              //   },
+              //   child: Container(
+              //     height: 50,
+              //     color: Colors.cyan,
+              //     child: Text('save'),
+              //   ),
+              // ),
               Stack(
                 children: <Widget>[
                   WelcomeBlock(),
