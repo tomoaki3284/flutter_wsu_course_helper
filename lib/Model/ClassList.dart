@@ -28,7 +28,7 @@ class ClassList with ChangeNotifier {
     Logger.LogDetailed('ClassList.dart', 'fetchClasses', 'start fetching');
 
     final String url =
-        "https://wsucoursehelper.s3.amazonaws.com/current-semester.json";
+        "https://coursehelper.s3.amazonaws.com/current-semester.json";
     final Response response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -36,7 +36,7 @@ class ClassList with ChangeNotifier {
       // then parse the JSON.
       Iterable l = json.decode(response.body);
       List<Class> classes =
-      List<Class>.from(l.map((model) => Class.fromJson(model)));
+          List<Class>.from(l.map((model) => Class.fromJson(model)));
       _allClasses = classes;
       init();
       notifyListeners();
