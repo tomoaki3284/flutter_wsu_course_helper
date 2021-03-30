@@ -24,6 +24,7 @@ class CoursesGridView extends StatelessWidget {
         : gridView(context);
 
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
       child: childWidget,
     );
   }
@@ -32,10 +33,10 @@ class CoursesGridView extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 12.0,
+        mainAxisSpacing: 12.0,
         childAspectRatio: MediaQuery.of(context).size.width /
-            (MediaQuery.of(context).size.height / 2.2),
+            (MediaQuery.of(context).size.height / 2.5),
       ),
       itemCount: classes.subjects.length,
       itemBuilder: (context, index) {
